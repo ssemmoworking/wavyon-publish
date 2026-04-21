@@ -1,11 +1,11 @@
 
-import { Check, ChevronDown, MessageCircle, PenSquare, Star, TrendingUp } from 'lucide-react';
+import { Check, ChevronDown, MessageCircle, Plus, Star, TrendingUp } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { favoriteBoards, homeNews, liveThreads, tradeItems } from '../data/mobileData';
 import type { Navigate } from '../lib/types';
 import { tradeStatusClass, tradeStatusLabel, wavyonTheme } from '../lib/theme';
-import { CardContainer, ImagePlaceholder, InlineNotice, ListSearchBar, SectionHeader, StatusBadge } from '../components/primitives';
+import { CardContainer, ImagePlaceholder, InlineNotice, ListSearchBar, StatusBadge } from '../components/primitives';
 
 const favoriteTabs = favoriteBoards;
 const artistBoards = ['NCT 127', 'NewJeans', 'Stray Kids', 'IVE', 'AESPA', 'RIIZE'] as const;
@@ -44,7 +44,7 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
   };
 
   return (
-    <div className="animate-in fade-in duration-500">
+    <div className="relative animate-in fade-in duration-500">
       <div className="sticky top-0 z-40 border-b border-slate-100 bg-white/95 px-5 pb-3 pt-5 shadow-sm backdrop-blur-md">
         <div className="relative mb-3 flex items-center justify-between">
           <button onClick={() => setIsDropdownOpen((prev) => !prev)} className="flex items-center gap-2">
@@ -150,15 +150,6 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
               title="안전한 중고거래 정책"
               description="본인인증 완료 유저 전용 게시판입니다. 사기 및 신고 시 문서 기준 상태값만 노출합니다."
             />
-            <SectionHeader
-              title="Trade 게시글"
-              helper="기존 카드형 썸네일 리스트를 유지한 상태로 글쓰기/수정 화면으로 연결합니다."
-              action={
-                <button
-                  onClick={() => navigate('trade-write')}
-                  className="inline-flex items-center gap-1 rounded-xl bg-slate-900 px-3 py-2 text-[10px] font-black text-white"
-                >
-                  <PenSquare size={12} />
                   글쓰기
                 </button>
               }
@@ -227,18 +218,6 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
           </div>
         ) : selectedBoard === '자유게시판' ? (
           <>
-            <SectionHeader
-              title="자유게시판"
-              helper="실시간 뉴스처럼 바로 글 리스트를 노출하고, 더보기로 전용 목록 페이지에 진입합니다."
-              action={
-                <button
-                  onClick={() => navigate('free-board')}
-                  className="rounded-xl bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-600"
-                >
-                  더보기
-                </button>
-              }
-            />
             <div className="space-y-3">
               {fandomList.slice(0, 4).map((post, index) => (
                 <CardContainer
@@ -285,19 +264,6 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
                 </div>
               </div>
             )}
-
-            <SectionHeader
-              title="팬덤 게시판"
-              leftIcon={MessageCircle}
-              action={
-                <button
-                  onClick={() => navigate('fandom-board', { board: selectedBoard })}
-                  className="rounded-xl bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-600"
-                >
-                  더보기
-                </button>
-              }
-            />
             <section className="rounded-[24px] border border-slate-100 bg-white p-3.5 shadow-sm">
               <div className="divide-y divide-slate-100">
                 {fandomList.map((post, index) => (
@@ -325,6 +291,17 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
           </>
         )}
       </div>
+{selectedBoard === 'Trade' && (
+  <button
+    onClick={() => navigate('trade-write')}
+    className="fixed bottom-24 right-5 z-50 inline-flex h-12 items-center gap-2 rounded-full px-4 text-[12px] font-black text-white shadow-[0_14px_26px_rgba(15,23,42,0.18)]"
+    style={{ background: wavyonTheme.logoGradients.dark }}
+  >
+    <Plus size={16} />
+    글쓰기
+  </button>
+)}
+
     </div>
   );
 };

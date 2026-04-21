@@ -562,6 +562,21 @@ const CommunityDetailScreen = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
+const FloatingWriteButton = ({
+  onClick,
+}: {
+  onClick?: () => void;
+}) => (
+  <button
+    onClick={onClick}
+    className="fixed bottom-24 right-5 z-50 inline-flex h-12 items-center gap-2 rounded-full px-4 text-[12px] font-black text-white shadow-[0_14px_26px_rgba(15,23,42,0.18)]"
+    style={{ background: wavyonTheme.logoGradients.dark }}
+  >
+    <Plus size={16} />
+    글쓰기
+  </button>
+);
+
 
 const TripCategoryScreen = ({
   onBack,
@@ -618,12 +633,7 @@ const TripCategoryScreen = ({
         </div>
       </div>
 
-      <button
-        className="absolute bottom-7 right-5 z-30 inline-flex h-14 items-center gap-2 rounded-full bg-orange-500 px-5 text-[14px] font-black text-white shadow-[0_16px_30px_rgba(249,115,22,0.34)]"
-      >
-        <Plus size={18} />
-        글쓰기
-      </button>
+      <FloatingWriteButton />
     </div>
   );
 };
@@ -1308,12 +1318,7 @@ const CommunityBoardListScreen = ({
         </div>
       </div>
 
-      <button
-        className="absolute bottom-7 right-5 z-30 inline-flex h-14 items-center gap-2 rounded-full bg-orange-500 px-5 text-[14px] font-black text-white shadow-[0_16px_30px_rgba(249,115,22,0.34)]"
-      >
-        <Plus size={18} />
-        글쓰기
-      </button>
+      <FloatingWriteButton />
     </div>
   );
 };
