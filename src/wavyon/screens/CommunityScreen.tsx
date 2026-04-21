@@ -150,10 +150,6 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
               title="안전한 중고거래 정책"
               description="본인인증 완료 유저 전용 게시판입니다. 사기 및 신고 시 문서 기준 상태값만 노출합니다."
             />
-                  글쓰기
-                </button>
-              }
-            />
             <div className="grid grid-cols-2 gap-3">
               {tradeItems.filter((item) => item.status !== 'DELETED').map((item) => (
                 <CardContainer key={item.id} onClick={() => navigate('trade-detail', { id: item.id })} className="overflow-hidden">
