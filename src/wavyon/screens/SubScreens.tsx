@@ -583,9 +583,9 @@ const TripCategoryScreen = ({
   const items = tripProducts.filter((product) => product.category === category);
 
   return (
-    <div className="flex h-full flex-col bg-slate-50">
+    <div className="relative flex h-full flex-col bg-slate-50">
       <SubHeader title={titleMap[category] ?? '카테고리'} onBack={onBack} />
-      <div className="flex-1 overflow-y-auto p-5 pb-[118px]">
+      <div className="flex-1 overflow-y-auto p-5 pb-[140px]">
         <ListSearchBar placeholder="매장명 / 상품명 검색" withFilter />
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           {(['전체', '인기순', '예약가능', '할인'] as const).map((item) => (
@@ -617,6 +617,13 @@ const TripCategoryScreen = ({
           ))}
         </div>
       </div>
+
+      <button
+        className="absolute bottom-7 right-5 z-30 inline-flex h-14 items-center gap-2 rounded-full bg-orange-500 px-5 text-[14px] font-black text-white shadow-[0_16px_30px_rgba(249,115,22,0.34)]"
+      >
+        <Plus size={18} />
+        글쓰기
+      </button>
     </div>
   );
 };
@@ -1276,9 +1283,9 @@ const CommunityBoardListScreen = ({
     : '팬덤 게시판 더보기 진입 시 사용하는 전용 목록 페이지입니다.';
 
   return (
-    <div className="flex h-full flex-col bg-slate-50">
+    <div className="relative flex h-full flex-col bg-slate-50">
       <SubHeader title={title} onBack={onBack} />
-      <div className="flex-1 overflow-y-auto p-6 pb-[110px]">
+      <div className="flex-1 overflow-y-auto p-6 pb-[140px]">
         <InlineNotice title={title} description={helper} />
         <div className="mt-4">
           <ListSearchBar placeholder={isFreeBoard ? '자유게시판 글 검색' : `${board} 게시판 글 검색`} />
@@ -1300,6 +1307,13 @@ const CommunityBoardListScreen = ({
           ))}
         </div>
       </div>
+
+      <button
+        className="absolute bottom-7 right-5 z-30 inline-flex h-14 items-center gap-2 rounded-full bg-orange-500 px-5 text-[14px] font-black text-white shadow-[0_16px_30px_rgba(249,115,22,0.34)]"
+      >
+        <Plus size={18} />
+        글쓰기
+      </button>
     </div>
   );
 };
