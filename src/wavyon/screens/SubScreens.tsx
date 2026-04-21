@@ -562,21 +562,6 @@ const CommunityDetailScreen = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
-const FloatingWriteButton = ({
-  onClick,
-}: {
-  onClick?: () => void;
-}) => (
-  <button
-    onClick={onClick}
-    className="fixed bottom-24 right-5 z-50 inline-flex h-12 items-center gap-2 rounded-full px-4 text-[12px] font-black text-white shadow-[0_14px_26px_rgba(15,23,42,0.18)]"
-    style={{ background: wavyonTheme.logoGradients.dark }}
-  >
-    <Plus size={16} />
-    글쓰기
-  </button>
-);
-
 
 const TripCategoryScreen = ({
   onBack,
@@ -598,9 +583,9 @@ const TripCategoryScreen = ({
   const items = tripProducts.filter((product) => product.category === category);
 
   return (
-    <div className="relative flex h-full flex-col bg-slate-50">
+    <div className="flex h-full flex-col bg-slate-50">
       <SubHeader title={titleMap[category] ?? '카테고리'} onBack={onBack} />
-      <div className="flex-1 overflow-y-auto p-5 pb-[140px]">
+      <div className="flex-1 overflow-y-auto p-5 pb-[118px]">
         <ListSearchBar placeholder="매장명 / 상품명 검색" withFilter />
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           {(['전체', '인기순', '예약가능', '할인'] as const).map((item) => (
@@ -632,8 +617,6 @@ const TripCategoryScreen = ({
           ))}
         </div>
       </div>
-
-      <FloatingWriteButton />
     </div>
   );
 };
@@ -1293,9 +1276,9 @@ const CommunityBoardListScreen = ({
     : '팬덤 게시판 더보기 진입 시 사용하는 전용 목록 페이지입니다.';
 
   return (
-    <div className="relative flex h-full flex-col bg-slate-50">
+    <div className="flex h-full flex-col bg-slate-50">
       <SubHeader title={title} onBack={onBack} />
-      <div className="flex-1 overflow-y-auto p-6 pb-[140px]">
+      <div className="flex-1 overflow-y-auto p-6 pb-[110px]">
         <InlineNotice title={title} description={helper} />
         <div className="mt-4">
           <ListSearchBar placeholder={isFreeBoard ? '자유게시판 글 검색' : `${board} 게시판 글 검색`} />
@@ -1317,8 +1300,6 @@ const CommunityBoardListScreen = ({
           ))}
         </div>
       </div>
-
-      <FloatingWriteButton />
     </div>
   );
 };
