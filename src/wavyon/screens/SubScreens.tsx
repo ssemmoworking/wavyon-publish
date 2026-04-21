@@ -162,6 +162,18 @@ const boardListItems = [
   { id: 'board-post-4', tag: '자유', title: '오늘 팝업 줄 어느 정도인지 아시는 분?', author: '팝업대기중', time: '1시간 전', stats: '댓글 7 · 조회 122' },
 ];
 
+const FloatingWriteButton = ({ onClick }: { onClick: () => void }) => (
+  <button
+    onClick={onClick}
+    className="fixed bottom-[104px] right-5 z-30 inline-flex items-center gap-2 rounded-full px-4 py-3 text-[11px] font-black text-white shadow-2xl shadow-slate-900/20 active:scale-95"
+    style={{ background: wavyonTheme.gradients.dark }}
+  >
+    <PenSquare size={14} />
+    글쓰기
+  </button>
+);
+
+
 const CommentsSection = ({
   title = '댓글',
 }: {
@@ -1276,9 +1288,9 @@ const CommunityBoardListScreen = ({
     : '팬덤 게시판 더보기 진입 시 사용하는 전용 목록 페이지입니다.';
 
   return (
-    <div className="flex h-full flex-col bg-slate-50">
+    <div className="relative flex h-full flex-col bg-slate-50">
       <SubHeader title={title} onBack={onBack} />
-      <div className="flex-1 overflow-y-auto p-6 pb-[110px]">
+      <div className="flex-1 overflow-y-auto p-6 pb-[130px]">
         <InlineNotice title={title} description={helper} />
         <div className="mt-4">
           <ListSearchBar placeholder={isFreeBoard ? '자유게시판 글 검색' : `${board} 게시판 글 검색`} />
@@ -1300,6 +1312,7 @@ const CommunityBoardListScreen = ({
           ))}
         </div>
       </div>
+      {!isFreeBoard && <FloatingWriteButton onClick={() => navigate('fandom-write', { board })} />}
     </div>
   );
 };
@@ -1527,6 +1540,81 @@ const ChatRoomScreen = ({
 
 
 
+
+const FandomBoardWriteScreen = ({
+  onBack,
+  route,
+}: {
+  onBack: () => void;
+  route: RouteState;
+}) => {
+  const board = String(route.params?.board ?? 'NCT 127');
+
+  return (
+    <div className="flex h-full flex-col bg-slate-50">
+      <SubHeader title={`${board} 게시글 작성`} onBack={onBack} />
+      <div className="flex-1 overflow-y-auto space-y-5 p-6 pb-[128px]">
+        <CardContainer className="p-5">
+          <div className="mb-4">
+            <p className="text-[10px] font-bold text-slate-400">팬덤 게시판 글쓰기</p>
+            <h3 className="mt-1 text-[15px] font-black text-slate-900">{board} 팬덤 게시판에 등록할 글을 작성합니다.</h3>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            <ImagePlaceholder className="h-24 rounded-[18px]" />
+            <button className="flex h-24 items-center justify-center rounded-[18px] border border-dashed border-slate-200 bg-slate-50 text-[11px] font-black text-slate-400">
+              이미지 추가
+            </button>
+            <button className="flex h-24 items-center justify-center rounded-[18px] border border-dashed border-slate-200 bg-slate-50 text-[11px] font-black text-slate-400">
+              이미지 추가
+            </button>
+          </div>
+        </CardContainer>
+
+        <CardContainer className="p-5">
+          <div className="space-y-4">
+            <div>
+              <p className="mb-2 text-[11px] font-black text-slate-800">말머리</p>
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {['자유', '정보', '질문', '후기'].map((item) => (
+                  <button
+                    key={item}
+                    className="whitespace-nowrap rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-[11px] font-black text-slate-600"
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="mb-2 text-[11px] font-black text-slate-800">제목</p>
+              <input
+                placeholder="게시글 제목을 입력하세요"
+                className="w-full rounded-[18px] border border-slate-100 bg-slate-50 px-4 py-3 text-[12px] font-bold text-slate-800 outline-none"
+              />
+            </div>
+            <div>
+              <p className="mb-2 text-[11px] font-black text-slate-800">내용</p>
+              <textarea
+                placeholder="팬덤 게시판에 공유할 내용을 입력하세요"
+                className="min-h-[180px] w-full rounded-[18px] border border-slate-100 bg-slate-50 px-4 py-3 text-[12px] font-bold text-slate-800 outline-none"
+              />
+            </div>
+          </div>
+        </CardContainer>
+
+        <InlineNotice
+          title="게시글 작성 가이드"
+          description="기존 팬덤 게시판 톤을 유지하며 제목과 본문을 명확하게 작성하고, 이미지가 있을 경우 함께 첨부합니다."
+        />
+      </div>
+
+      <BottomFixedActionBar>
+        <CTAButton className="flex-1">게시글 등록</CTAButton>
+      </BottomFixedActionBar>
+    </div>
+  );
+};
+
 const TradeEditorScreen = ({
   onBack,
   route,
@@ -1700,6 +1788,8 @@ export const SubScreenRouter = ({
       return <TripBookingCompleteScreen onBack={onBack} route={route} navigate={navigate} />;
     case 'trade-detail':
       return <TradeDetailScreen onBack={onBack} route={route} navigate={navigate} />;
+    case 'fandom-write':
+      return <FandomBoardWriteScreen onBack={onBack} route={route} />;
     case 'trade-write':
     case 'trade-edit':
       return <TradeEditorScreen onBack={onBack} route={route} />;

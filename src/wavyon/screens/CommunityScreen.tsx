@@ -32,6 +32,18 @@ const fandomList = [
   { tab: '자유', title: '셔틀 1호차 타시는 분들 같이 가요!', author: '팬더마우스', time: '2시간 전', likes: 14, cmts: 3 },
 ];
 
+const FloatingWriteButton = ({ onClick }: { onClick: () => void }) => (
+  <button
+    onClick={onClick}
+    className="fixed bottom-[104px] right-5 z-30 inline-flex items-center gap-2 rounded-full px-4 py-3 text-[11px] font-black text-white shadow-2xl shadow-slate-900/20 active:scale-95"
+    style={{ background: wavyonTheme.gradients.dark }}
+  >
+    <PenSquare size={14} />
+    글쓰기
+  </button>
+);
+
+
 export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
   const [selectedBoard, setSelectedBoard] = useState<CommunityBoard>('NCT 127');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -150,19 +162,6 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
               title="안전한 중고거래 정책"
               description="본인인증 완료 유저 전용 게시판입니다. 사기 및 신고 시 문서 기준 상태값만 노출합니다."
             />
-            <SectionHeader
-              title="Trade 게시글"
-              helper="기존 카드형 썸네일 리스트를 유지한 상태로 글쓰기/수정 화면으로 연결합니다."
-              action={
-                <button
-                  onClick={() => navigate('trade-write')}
-                  className="inline-flex items-center gap-1 rounded-xl bg-slate-900 px-3 py-2 text-[10px] font-black text-white"
-                >
-                  <PenSquare size={12} />
-                  글쓰기
-                </button>
-              }
-            />
             <div className="grid grid-cols-2 gap-3">
               {tradeItems.filter((item) => item.status !== 'DELETED').map((item) => (
                 <CardContainer key={item.id} onClick={() => navigate('trade-detail', { id: item.id })} className="overflow-hidden">
@@ -175,6 +174,7 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
                 </CardContainer>
               ))}
             </div>
+            <FloatingWriteButton onClick={() => navigate('trade-write')} />
           </>
         ) : selectedBoard === '공연정보' ? (
           <>
@@ -322,6 +322,7 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
                 ))}
               </div>
             </section>
+            <FloatingWriteButton onClick={() => navigate('fandom-write', { board: selectedBoard })} />
           </>
         )}
       </div>
