@@ -1,5 +1,5 @@
 
-import { Check, ChevronDown, MessageCircle, Star, TrendingUp } from 'lucide-react';
+import { Check, ChevronDown, MessageCircle, PenSquare, Star, TrendingUp } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { favoriteBoards, homeNews, liveThreads, tradeItems } from '../data/mobileData';
@@ -150,6 +150,19 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
               title="안전한 중고거래 정책"
               description="본인인증 완료 유저 전용 게시판입니다. 사기 및 신고 시 문서 기준 상태값만 노출합니다."
             />
+            <SectionHeader
+              title="Trade 게시글"
+              helper="기존 카드형 썸네일 리스트를 유지한 상태로 글쓰기/수정 화면으로 연결합니다."
+              action={
+                <button
+                  onClick={() => navigate('trade-write')}
+                  className="inline-flex items-center gap-1 rounded-xl bg-slate-900 px-3 py-2 text-[10px] font-black text-white"
+                >
+                  <PenSquare size={12} />
+                  글쓰기
+                </button>
+              }
+            />
             <div className="grid grid-cols-2 gap-3">
               {tradeItems.filter((item) => item.status !== 'DELETED').map((item) => (
                 <CardContainer key={item.id} onClick={() => navigate('trade-detail', { id: item.id })} className="overflow-hidden">
@@ -213,25 +226,39 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
             ))}
           </div>
         ) : selectedBoard === '자유게시판' ? (
-          <div className="space-y-3">
-            {fandomList.map((post, index) => (
-              <CardContainer
-                key={`${post.title}-${index}`}
-                onClick={() => navigate('community-detail', { id: 'community-1' })}
-                className="p-4"
-              >
-                <div className="mb-2 flex items-center gap-2">
-                  <span className="rounded bg-blue-50 px-2 py-0.5 text-[9px] font-black text-blue-700">{post.tab}</span>
-                  <span className="text-[9px] font-bold text-slate-400">{post.time}</span>
-                </div>
-                <h4 className="text-[12px] font-black leading-snug text-slate-900">{post.title}</h4>
-                <div className="mt-2 flex items-center justify-between text-[10px] font-bold text-slate-400">
-                  <span>{post.author}</span>
-                  <span>♥ {post.likes} · 💬 {post.cmts}</span>
-                </div>
-              </CardContainer>
-            ))}
-          </div>
+          <>
+            <SectionHeader
+              title="자유게시판"
+              helper="실시간 뉴스처럼 바로 글 리스트를 노출하고, 더보기로 전용 목록 페이지에 진입합니다."
+              action={
+                <button
+                  onClick={() => navigate('free-board')}
+                  className="rounded-xl bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-600"
+                >
+                  더보기
+                </button>
+              }
+            />
+            <div className="space-y-3">
+              {fandomList.slice(0, 4).map((post, index) => (
+                <CardContainer
+                  key={`${post.title}-${index}`}
+                  onClick={() => navigate('community-detail', { id: 'community-1' })}
+                  className="p-4"
+                >
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="rounded bg-blue-50 px-2 py-0.5 text-[9px] font-black text-blue-700">{post.tab}</span>
+                    <span className="text-[9px] font-bold text-slate-400">{post.time}</span>
+                  </div>
+                  <h4 className="text-[12px] font-black leading-snug text-slate-900">{post.title}</h4>
+                  <div className="mt-2 flex items-center justify-between text-[10px] font-bold text-slate-400">
+                    <span>{post.author}</span>
+                    <span>♥ {post.likes} · 💬 {post.cmts}</span>
+                  </div>
+                </CardContainer>
+              ))}
+            </div>
+          </>
         ) : (
           <>
             {isArtistBoard && (
@@ -264,7 +291,7 @@ export const CommunityScreen = ({ navigate }: { navigate: Navigate }) => {
               leftIcon={MessageCircle}
               action={
                 <button
-                  onClick={() => navigate('community-board-list', { board: selectedBoard })}
+                  onClick={() => navigate('fandom-board', { board: selectedBoard })}
                   className="rounded-xl bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-600"
                 >
                   더보기

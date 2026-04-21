@@ -16,6 +16,7 @@ import {
   Heart,
   PlaneTakeoff,
   HelpCircle,
+  PenSquare,
   Image as ImageIcon,
   Info,
   MapPin,
@@ -739,7 +740,19 @@ const TradeDetailScreen = ({
 
   return (
     <div className="flex h-full flex-col bg-slate-50">
-      <SubHeader title="Trade 상세" onBack={onBack} />
+      <SubHeader
+        title="Trade 상세"
+        onBack={onBack}
+        right={
+          <button
+            onClick={() => navigate('trade-edit', { id: item.id })}
+            className="inline-flex items-center gap-1 rounded-xl bg-slate-50 px-3 py-2 text-[10px] font-black text-slate-600"
+          >
+            <PenSquare size={12} />
+            수정
+          </button>
+        }
+      />
       <div className="flex-1 overflow-y-auto p-6 pb-[120px]">
         <CardContainer className="overflow-hidden">
           <ImagePlaceholder className="h-48 rounded-none rounded-t-[25px]" />
@@ -1253,25 +1266,43 @@ const CommunityBoardListScreen = ({
   onBack: () => void;
   route: RouteState;
   navigate: Navigate;
-}) => (
-  <div className="flex h-full flex-col bg-slate-50">
-    <SubHeader title={String(route.params?.board ?? '팬덤 게시판')} onBack={onBack} />
-    <div className="flex-1 overflow-y-auto p-6 pb-[100px] space-y-3">
-      <ListSearchBar placeholder="게시판 글 검색" />
-      {boardListItems.map((item) => (
-        <CardContainer key={item.id} onClick={() => navigate('community-detail', { id: 'community-1' })} className="p-4">
-          <div className="mb-2 flex items-center gap-2">
-            <span className="rounded bg-blue-50 px-2 py-0.5 text-[9px] font-black text-blue-700">{item.tag}</span>
-            <span className="text-[9px] font-bold text-slate-400">{item.time}</span>
-          </div>
-          <h4 className="text-[13px] font-black text-slate-900">{item.title}</h4>
-          <p className="mt-1 text-[10px] font-bold text-slate-500">{item.author}</p>
-          <p className="mt-2 text-[10px] font-bold text-slate-400">{item.stats}</p>
-        </CardContainer>
-      ))}
+}) => {
+  const board = String(route.params?.board ?? (route.id === 'free-board' ? '자유게시판' : '팬덤 게시판'));
+  const isFreeBoard = route.id === 'free-board' || board === '자유게시판';
+
+  const title = isFreeBoard ? '자유게시판' : `${board} 팬덤 게시판`;
+  const helper = isFreeBoard
+    ? '실시간 뉴스형 템플릿을 유지한 자유게시판 전용 목록입니다.'
+    : '팬덤 게시판 더보기 진입 시 사용하는 전용 목록 페이지입니다.';
+
+  return (
+    <div className="flex h-full flex-col bg-slate-50">
+      <SubHeader title={title} onBack={onBack} />
+      <div className="flex-1 overflow-y-auto p-6 pb-[110px]">
+        <InlineNotice title={title} description={helper} />
+        <div className="mt-4">
+          <ListSearchBar placeholder={isFreeBoard ? '자유게시판 글 검색' : `${board} 게시판 글 검색`} />
+        </div>
+
+        <div className="mt-4 space-y-3">
+          {boardListItems.map((item) => (
+            <CardContainer key={`${title}-${item.id}`} onClick={() => navigate('community-detail', { id: 'community-1' })} className="p-4">
+              <div className="mb-2 flex items-center gap-2">
+                <span className="rounded bg-blue-50 px-2 py-0.5 text-[9px] font-black text-blue-700">{item.tag}</span>
+                <span className="text-[9px] font-bold text-slate-400">{item.time}</span>
+              </div>
+              <h4 className="text-[13px] font-black text-slate-900">{item.title}</h4>
+              <div className="mt-2 flex items-center justify-between text-[10px] font-bold text-slate-400">
+                <span>{isFreeBoard ? item.author : `${board} · ${item.author}`}</span>
+                <span>{item.stats}</span>
+              </div>
+            </CardContainer>
+          ))}
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const PointsCouponsScreen = ({ onBack }: { onBack: () => void }) => {
   const [tab, setTab] = useState<'points' | 'coupons'>('points');
@@ -1494,6 +1525,147 @@ const ChatRoomScreen = ({
   );
 };
 
+
+
+const TradeEditorScreen = ({
+  onBack,
+  route,
+}: {
+  onBack: () => void;
+  route: RouteState;
+}) => {
+  const isEdit = route.id === 'trade-edit';
+  const currentItem = tradeItems.find((trade) => trade.id === route.params?.id) ?? tradeItems[0];
+  const [status, setStatus] = useState<TradeStatus>(isEdit ? currentItem.status : 'ON_SALE');
+
+  const tradeMethods = ['직거래', '현장수령', '택배'] as const;
+  const [method, setMethod] = useState<(typeof tradeMethods)[number]>('직거래');
+
+  return (
+    <div className="flex h-full flex-col bg-slate-50">
+      <SubHeader title={isEdit ? 'Trade 글 수정' : 'Trade 글쓰기'} onBack={onBack} />
+      <div className="flex-1 overflow-y-auto p-6 pb-[128px] space-y-5">
+        <CardContainer className="p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-bold text-slate-400">{isEdit ? '기존 거래글 기준 수정' : '새 거래글 작성'}</p>
+              <h3 className="mt-1 text-[15px] font-black text-slate-900">
+                {isEdit ? currentItem.title : '양도 / 교환 / 판매 게시글을 작성합니다'}
+              </h3>
+            </div>
+            {isEdit && <StatusBadge label={tradeStatusLabel[status]} className={tradeStatusClass[status]} />}
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <ImagePlaceholder className="h-24 rounded-[18px]" />
+            <button className="flex h-24 items-center justify-center rounded-[18px] border border-dashed border-slate-200 bg-slate-50 text-[11px] font-black text-slate-400">
+              이미지 추가
+            </button>
+            <button className="flex h-24 items-center justify-center rounded-[18px] border border-dashed border-slate-200 bg-slate-50 text-[11px] font-black text-slate-400">
+              이미지 추가
+            </button>
+          </div>
+        </CardContainer>
+
+        <CardContainer className="p-5">
+          <div className="space-y-4">
+            <div>
+              <p className="mb-2 text-[11px] font-black text-slate-800">제목</p>
+              <input
+                defaultValue={isEdit ? currentItem.title : ''}
+                placeholder="거래글 제목을 입력하세요"
+                className="w-full rounded-[18px] border border-slate-100 bg-slate-50 px-4 py-3 text-[12px] font-bold text-slate-800 outline-none"
+              />
+            </div>
+            <div>
+              <p className="mb-2 text-[11px] font-black text-slate-800">가격</p>
+              <input
+                defaultValue={isEdit ? currentItem.priceLabel.replace(' KRW', '') : ''}
+                placeholder="예: 20,000"
+                className="w-full rounded-[18px] border border-slate-100 bg-slate-50 px-4 py-3 text-[12px] font-bold text-slate-800 outline-none"
+              />
+            </div>
+            <div>
+              <p className="mb-2 text-[11px] font-black text-slate-800">설명</p>
+              <textarea
+                defaultValue={isEdit ? `${currentItem.lastStateText}\n\n직거래 위치와 상태를 자세히 적어주세요.` : ''}
+                placeholder="상품 상태 / 수령 위치 / 거래 조건을 입력하세요"
+                className="min-h-[130px] w-full rounded-[18px] border border-slate-100 bg-slate-50 px-4 py-3 text-[12px] font-bold text-slate-800 outline-none"
+              />
+            </div>
+          </div>
+        </CardContainer>
+
+        <CardContainer className="p-5">
+          <p className="mb-3 text-[11px] font-black text-slate-800">거래 방식</p>
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {tradeMethods.map((item) => (
+              <button
+                key={item}
+                onClick={() => setMethod(item)}
+                className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[11px] font-black ${
+                  method === item ? 'border-blue-800 bg-blue-800 text-white' : 'border-slate-200 bg-white text-slate-600'
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-4 space-y-3">
+            <div>
+              <p className="mb-2 text-[11px] font-black text-slate-800">거래 가능 장소</p>
+              <input
+                defaultValue={isEdit ? '고척 스카이돔 2번 게이트 앞' : ''}
+                placeholder="예: 공연장 2번 게이트 앞"
+                className="w-full rounded-[18px] border border-slate-100 bg-slate-50 px-4 py-3 text-[12px] font-bold text-slate-800 outline-none"
+              />
+            </div>
+
+            <div>
+              <p className="mb-2 text-[11px] font-black text-slate-800">연락 가능 시간</p>
+              <input
+                defaultValue={isEdit ? '공연 당일 12:00 ~ 17:00' : ''}
+                placeholder="예: 평일 18:00 이후"
+                className="w-full rounded-[18px] border border-slate-100 bg-slate-50 px-4 py-3 text-[12px] font-bold text-slate-800 outline-none"
+              />
+            </div>
+          </div>
+        </CardContainer>
+
+        {isEdit && (
+          <CardContainer className="p-5">
+            <p className="mb-3 text-[11px] font-black text-slate-800">상태값</p>
+            <div className="flex flex-wrap gap-2">
+              {(['ON_SALE', 'RESERVED', 'COMPLETED', 'HIDDEN_REPORTED', 'HIDDEN_BLOCKED'] as TradeStatus[]).map((item) => (
+                <button
+                  key={item}
+                  onClick={() => setStatus(item)}
+                  className={`rounded-full border px-3 py-1.5 text-[10px] font-black ${
+                    status === item ? 'border-blue-800 bg-blue-800 text-white' : 'border-slate-200 bg-white text-slate-600'
+                  }`}
+                >
+                  {tradeStatusLabel[item]}
+                </button>
+              ))}
+            </div>
+          </CardContainer>
+        )}
+
+        <InlineNotice
+          title="Trade 작성 가이드"
+          description="제목, 가격, 거래 위치, 상품 상태를 명확하게 작성하고 문서 기준 상태값만 사용합니다. 신고/차단 상태는 운영 처리 후 반영됩니다."
+        />
+      </div>
+
+      <BottomFixedActionBar>
+        {isEdit && <CTAButton variant="ghost" className="flex-1">삭제</CTAButton>}
+        <CTAButton className="flex-1">{isEdit ? '수정 완료' : '게시글 등록'}</CTAButton>
+      </BottomFixedActionBar>
+    </div>
+  );
+};
+
 export const SubScreenRouter = ({
   route,
   onBack,
@@ -1515,6 +1687,8 @@ export const SubScreenRouter = ({
     case 'community-detail':
       return <CommunityDetailScreen onBack={onBack} />;
     case 'community-board-list':
+    case 'free-board':
+    case 'fandom-board':
       return <CommunityBoardListScreen onBack={onBack} route={route} navigate={navigate} />;
     case 'trip-category':
       return <TripCategoryScreen onBack={onBack} route={route} navigate={navigate} />;
@@ -1526,6 +1700,9 @@ export const SubScreenRouter = ({
       return <TripBookingCompleteScreen onBack={onBack} route={route} navigate={navigate} />;
     case 'trade-detail':
       return <TradeDetailScreen onBack={onBack} route={route} navigate={navigate} />;
+    case 'trade-write':
+    case 'trade-edit':
+      return <TradeEditorScreen onBack={onBack} route={route} />;
     case 'trade-chat':
       return <TradeChatScreen onBack={onBack} route={route} />;
     case 'system-alert-detail':
