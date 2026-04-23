@@ -15,176 +15,163 @@ class MyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final visibleEntries = mySignedIn
+        ? myMenuEntries
+        : myMenuEntries
+            .where(
+              (entry) => entry.routeId == AppRouteId.support || entry.routeId == AppRouteId.settings,
+            )
+            .toList(growable: false);
+
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 120),
       children: [
-        Row(
-          children: [
-            Container(
-              width: 96,
-              height: 96,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
-                borderRadius: BorderRadius.circular(35),
-                border: Border.all(color: Colors.white, width: 4),
-                boxShadow: WavyonShadows.strong,
-              ),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  const Center(
-                    child: Icon(
-                      Icons.person_rounded,
-                      size: 44,
-                      color: WavyonColors.muted,
-                    ),
-                  ),
-                  Positioned(
-                    right: -4,
-                    bottom: -4,
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: WavyonColors.ink,
-                        borderRadius: BorderRadius.circular(999),
-                        border: Border.all(color: Colors.white, width: 3),
-                        boxShadow: WavyonShadows.card,
-                      ),
-                      child: const Icon(
-                        Icons.photo_camera_outlined,
-                        size: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 18),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'KIM WAVY',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w900,
-                      color: WavyonColors.text,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'wavy_fan_912@service.com',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w800,
-                      color: WavyonColors.muted,
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  BadgeChip(
-                    label: 'Verified member',
-                    background: Color(0xFFEFF6FF),
-                    foreground: WavyonColors.blue,
-                    border: Color(0xFFBFDBFE),
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        WavyonCard(
-          child: Column(
+        if (mySignedIn) ...[
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Simple login member status',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w800,
-                            color: WavyonColors.muted,
-                          ),
-                        ),
-                        SizedBox(height: 6),
-                        Text(
-                          'Quick access without ID/PW remains visible as its own status block.',
-                          style: TextStyle(
-                            fontSize: 13,
-                            height: 1.4,
-                            fontWeight: FontWeight.w900,
-                            color: WavyonColors.text,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  _MiniActionButton(label: 'Log out'),
-                ],
+              Container(
+                width: 96,
+                height: 96,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F5F9),
+                  borderRadius: BorderRadius.circular(32),
+                  border: Border.all(color: Colors.white, width: 4),
+                  boxShadow: WavyonShadows.strong,
+                ),
+                child: const Icon(
+                  Icons.person_outline_rounded,
+                  size: 46,
+                  color: WavyonColors.muted,
+                ),
               ),
-              const SizedBox(height: 14),
-              ...myAuthProviders.map(
-                (provider) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF8FAFC),
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: WavyonColors.line),
+              const SizedBox(width: 18),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'KIM WAVY',
+                      style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.w900,
+                        color: WavyonColors.text,
+                      ),
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            provider.name,
-                            style: const TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w900,
-                              color: WavyonColors.text,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          provider.state,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w900,
-                            color: provider.isActive ? WavyonColors.blue : WavyonColors.muted,
-                          ),
-                        ),
-                      ],
+                    SizedBox(height: 6),
+                    Text(
+                      'wavy_fan_912@service.com',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w800,
+                        color: WavyonColors.muted,
+                      ),
                     ),
-                  ),
+                    SizedBox(height: 14),
+                    BadgeChip(
+                      label: '본인인증 완료 회원',
+                      background: Color(0xFFEFF6FF),
+                      foreground: WavyonColors.blue,
+                      border: Color(0xFFBFDBFE),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-        ),
-        const SizedBox(height: 20),
+          const SizedBox(height: 20),
+        ] else ...[
+          WavyonCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '간편인증 가입 회원',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                              color: WavyonColors.muted,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'ID / PW 없이 간편인증 진입 시 바로 가입과 로그인이 함께 완료됩니다.',
+                            style: TextStyle(
+                              fontSize: 13,
+                              height: 1.45,
+                              fontWeight: FontWeight.w900,
+                              color: WavyonColors.text,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    const _MiniActionButton(label: '로그아웃'),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                ...myAuthProviders.map(
+                  (provider) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF8FAFC),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: WavyonColors.line),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              provider.name,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w900,
+                                color: WavyonColors.text,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            provider.state,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w900,
+                              color: provider.isActive ? WavyonColors.muted : const Color(0xFF94A3B8),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+        ],
         WavyonCard(
           padding: EdgeInsets.zero,
           radius: 35,
           child: Column(
             children: [
-              for (final entry in myMenuEntries) ...[
+              for (final entry in visibleEntries) ...[
                 SettingRow(
                   icon: entry.icon,
                   label: entry.label,
                   count: entry.count,
                   onTap: () => onNavigate(AppRoute(entry.routeId, title: entry.label)),
                 ),
-                if (entry != myMenuEntries.last)
+                if (entry != visibleEntries.last)
                   const Divider(height: 1, color: WavyonColors.line),
               ],
             ],
@@ -205,7 +192,7 @@ class _MiniActionButton extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: WavyonColors.line),
       ),

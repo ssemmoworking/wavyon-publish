@@ -18,13 +18,13 @@ class TripScreen extends StatefulWidget {
 }
 
 class _TripScreenState extends State<TripScreen> {
-  String infoTab = 'Food Guide';
+  String infoTab = '맛집 정보';
   bool isGuideOpen = false;
 
   @override
   Widget build(BuildContext context) {
-    final previewProducts = infoTab == 'Food Guide' ? foodTripProducts : travelTripProducts;
-    final category = infoTab == 'Food Guide' ? 'FOOD' : 'POPUP';
+    final previewProducts = infoTab == '맛집 정보' ? foodTripProducts : travelTripProducts;
+    final category = infoTab == '맛집 정보' ? 'FOOD' : 'POPUP';
 
     return Stack(
       children: [
@@ -37,12 +37,12 @@ class _TripScreenState extends State<TripScreen> {
             ),
             const SizedBox(height: 20),
             SectionTitle(
-              title: 'Food Guide / Travel Guide',
-              subtitle: 'Preview cards stay aligned with the HOTSPOT list below.',
+              title: '맛집 정보 / 여행 정보',
+              subtitle: '상단 탭 리스트도 HOTSPOT 톤의 카드형 미리보기로 노출합니다.',
               action: _MiniGhostButton(
-                label: 'More',
+                label: '더보기',
                 onTap: () => widget.onNavigate(
-                  AppRoute(AppRouteId.tripCategory, title: 'Trip Category', payload: {'category': category}),
+                  AppRoute(AppRouteId.tripCategory, title: '카테고리', payload: {'category': category}),
                 ),
               ),
             ),
@@ -50,15 +50,15 @@ class _TripScreenState extends State<TripScreen> {
             Row(
               children: [
                 FilterChipButton(
-                  label: 'Food Guide',
-                  active: infoTab == 'Food Guide',
-                  onTap: () => setState(() => infoTab = 'Food Guide'),
+                  label: '맛집 정보',
+                  active: infoTab == '맛집 정보',
+                  onTap: () => setState(() => infoTab = '맛집 정보'),
                 ),
                 const SizedBox(width: 8),
                 FilterChipButton(
-                  label: 'Travel Guide',
-                  active: infoTab == 'Travel Guide',
-                  onTap: () => setState(() => infoTab = 'Travel Guide'),
+                  label: '여행 정보',
+                  active: infoTab == '여행 정보',
+                  onTap: () => setState(() => infoTab = '여행 정보'),
                 ),
               ],
             ),
@@ -81,7 +81,7 @@ class _TripScreenState extends State<TripScreen> {
             const SizedBox(height: 16),
             const SectionTitle(
               title: 'HOTSPOT',
-              subtitle: 'Realtime recommendation products based on the highlighted flow.',
+              subtitle: '실시간 트렌드 기반 추천 상품',
               icon: Icons.local_fire_department_rounded,
             ),
             const SizedBox(height: 14),
@@ -129,7 +129,7 @@ class _TripScreenState extends State<TripScreen> {
                             Icon(Icons.flight_takeoff_rounded, size: 16, color: Colors.white),
                             SizedBox(width: 8),
                             Text(
-                              'Airport Guide Lookup',
+                              '인천공항 스마트 가이드',
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w900,
@@ -140,7 +140,7 @@ class _TripScreenState extends State<TripScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Search the latest gate and check-in details in the same modal pattern.',
+                          '항공편 입력 후 설계 기준 정보 모달로 확인합니다.',
                           style: TextStyle(
                             fontSize: 10,
                             height: 1.4,
@@ -160,7 +160,7 @@ class _TripScreenState extends State<TripScreen> {
                                   border: Border.all(color: Colors.white.withOpacity(0.28)),
                                 ),
                                 child: Text(
-                                  'KE071',
+                                  '예: KE071',
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w900,
@@ -178,7 +178,7 @@ class _TripScreenState extends State<TripScreen> {
                                 boxShadow: WavyonShadows.card,
                               ),
                               child: const Text(
-                                'Search',
+                                '조회',
                                 style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w900,
@@ -196,44 +196,44 @@ class _TripScreenState extends State<TripScreen> {
             ),
             const SizedBox(height: 20),
             const SectionTitle(
-              title: 'Quick Categories',
-              subtitle: 'Food, popup, and beauty shortcuts keep the same tile rhythm.',
+              title: '카테고리 바로가기',
+              subtitle: '제휴 맛집 / 팝업스토어 / K-뷰티는 기존 버튼 구조를 유지합니다.',
             ),
             const SizedBox(height: 14),
             Row(
               children: [
                 Expanded(
                   child: _QuickCategoryTile(
-                    label: 'Food',
+                    label: '제휴 맛집',
                     icon: Icons.restaurant_rounded,
                     background: const Color(0xFFFFEDD5),
                     foreground: const Color(0xFFEA580C),
                     onTap: () => widget.onNavigate(
-                      const AppRoute(AppRouteId.tripCategory, title: 'Food'),
+                      const AppRoute(AppRouteId.tripCategory, title: '제휴 맛집'),
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _QuickCategoryTile(
-                    label: 'Popup',
+                    label: '팝업스토어',
                     icon: Icons.shopping_bag_rounded,
                     background: const Color(0xFFF3E8FF),
                     foreground: const Color(0xFF9333EA),
                     onTap: () => widget.onNavigate(
-                      const AppRoute(AppRouteId.tripCategory, title: 'Popup'),
+                      const AppRoute(AppRouteId.tripCategory, title: '팝업스토어'),
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _QuickCategoryTile(
-                    label: 'Beauty',
+                    label: 'K-뷰티',
                     icon: Icons.auto_awesome_rounded,
                     background: const Color(0xFFFCE7F3),
                     foreground: const Color(0xFFDB2777),
                     onTap: () => widget.onNavigate(
-                      const AppRoute(AppRouteId.tripCategory, title: 'Beauty'),
+                      const AppRoute(AppRouteId.tripCategory, title: 'K-뷰티'),
                     ),
                   ),
                 ),
@@ -429,7 +429,7 @@ class _GuideModal extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 const Text(
-                                  'KE071 lookup result',
+                                  'KE071 항공편 조회 결과',
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w900,
@@ -438,7 +438,7 @@ class _GuideModal extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'Terminal, gate, and check-in details are grouped like the React modal.',
+                                  '설계 기준 항공편 관련 정보 모달',
                                   style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ],
@@ -481,7 +481,7 @@ class _GuideModal extends StatelessWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Flight',
+                                        '항공편',
                                         style: TextStyle(
                                           fontSize: 9,
                                           fontWeight: FontWeight.w800,
@@ -490,7 +490,7 @@ class _GuideModal extends StatelessWidget {
                                       ),
                                       SizedBox(height: 4),
                                       Text(
-                                        'Korean Air KE071',
+                                        '대한항공 KE071',
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w900,
@@ -501,7 +501,7 @@ class _GuideModal extends StatelessWidget {
                                   ),
                                 ),
                                 BadgeChip(
-                                  label: 'On time',
+                                  label: '정상 운항',
                                   background: statusStyle.background,
                                   foreground: statusStyle.foreground,
                                   border: statusStyle.border,
@@ -509,18 +509,18 @@ class _GuideModal extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 14),
-                            const InfoRow(label: 'Departure', value: '2026.04.22 13:10'),
-                            const InfoRow(label: 'Terminal', value: 'T2'),
-                            const InfoRow(label: 'Check-in', value: 'D15 - D22'),
-                            const InfoRow(label: 'Gate', value: '248'),
-                            const InfoRow(label: 'Security advice', value: 'Arrive 2 hours early'),
+                            const InfoRow(label: '출발', value: '2026.04.22 13:10'),
+                            const InfoRow(label: '터미널', value: 'T2'),
+                            const InfoRow(label: '체크인 카운터', value: 'D15 - D22'),
+                            const InfoRow(label: '탑승 게이트', value: '248'),
+                            const InfoRow(label: '보안검색 권장', value: '출발 2시간 전'),
                           ],
                         ),
                       ),
                       const SizedBox(height: 14),
                       const WavyonCard(
                         child: Text(
-                          'The detailed notes area is styled as a second card so the modal does not collapse into plain text.',
+                          '셔틀 승차장, 수하물 규정, 체크인 마감, 언어별 공항 안내 문구가 같은 모달 셀 안에서 확장되도록 유지합니다.',
                           style: TextStyle(
                             fontSize: 11,
                             height: 1.5,
@@ -534,14 +534,15 @@ class _GuideModal extends StatelessWidget {
                         children: [
                           Expanded(
                             child: WavyonButton(
-                              label: 'Search Again',
+                              label: '닫기',
                               variant: WavyonButtonVariant.ghost,
+                              onPressed: onClose,
                             ),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: WavyonButton(
-                              label: 'Confirm',
+                              label: '확인',
                               onPressed: onClose,
                             ),
                           ),

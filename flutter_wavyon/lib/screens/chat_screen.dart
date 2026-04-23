@@ -41,9 +41,9 @@ class _ChatScreenState extends State<ChatScreen> {
               const SizedBox(height: 16),
               SegmentTabs<String>(
                 items: const [
-                  SegmentTabItem(value: 'ROOMS', label: 'Rooms'),
+                  SegmentTabItem(value: 'ROOMS', label: '채팅방'),
                   SegmentTabItem(value: 'TRADE', label: 'Trade'),
-                  SegmentTabItem(value: 'SYSTEM', label: 'System'),
+                  SegmentTabItem(value: 'SYSTEM', label: '시스템 알림'),
                 ],
                 value: currentTab,
                 onChanged: (value) => setState(() => currentTab = value),
@@ -51,9 +51,9 @@ class _ChatScreenState extends State<ChatScreen> {
               const SizedBox(height: 12),
               SearchBarCard(
                 placeholder: switch (currentTab) {
-                  'ROOMS' => 'Search chat rooms',
-                  'TRADE' => 'Search trade chats',
-                  _ => 'Search system alerts',
+                  'ROOMS' => '채팅방 검색',
+                  'TRADE' => 'Trade 채팅 검색',
+                  _ => '시스템 알림 검색',
                 },
               ),
             ],
@@ -205,19 +205,19 @@ class _TradeChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final visibleTradeItems = tradeItems
+        .where((item) => item.statusKey != 'DELETED')
+        .toList(growable: false);
+
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 120),
       children: [
-        const InlineNotice(
-          title: 'Trade chat policy',
-          description:
-              'Completed and blocked states become read-only, while the item title and status badge stay pinned at the top.',
-        ),
-        const SizedBox(height: 18),
-        ...tradeItems.map(
+        ...visibleTradeItems.map(
           (item) {
             final style = tradeStatusStyle(item.statusKey);
-            final readOnly = item.statusKey == 'COMPLETED' || item.statusKey == 'HIDDEN_BLOCKED';
+            final readOnly = item.statusKey == 'COMPLETED' ||
+                item.statusKey == 'HIDDEN_BLOCKED' ||
+                item.statusKey == 'HIDDEN_REPORTED';
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: WavyonCard(
@@ -279,7 +279,7 @@ class _TradeChatView extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'Counterparty: ${item.buyerNickname}',
+                                '상대방: ${item.buyerNickname}',
                                 style: Theme.of(context).textTheme.labelSmall,
                               ),
                               const Spacer(),
@@ -339,12 +339,6 @@ class _SystemView extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 120),
       children: [
-        const SectionTitle(
-          title: 'System Alerts',
-          subtitle: 'SYSTEM / PAYMENT / TRADE / COMMUNITY / NOTICE / RESERVATION categories only',
-          icon: Icons.notifications_active_outlined,
-        ),
-        const SizedBox(height: 14),
         ...systemAlerts.map(
           (alert) {
             final style = notificationCategoryStyle(alert.category);

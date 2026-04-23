@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../app/theme.dart';
 import '../models/app_models.dart';
 
-const favoriteBoards = <String>['NCT 127', 'Free Board', 'Trade'];
+const favoriteBoards = <String>['NCT 127', '자유게시판', 'Trade'];
 
 const artistBoards = <String>[
   'NCT 127',
@@ -14,8 +14,8 @@ const artistBoards = <String>[
   'RIIZE',
 ];
 
-const infoBoards = <String>['Trade', 'Concert Info'];
-const extraBoards = <String>['Free Board', 'Live News'];
+const infoBoards = <String>['Trade', '공연정보'];
+const extraBoards = <String>['자유게시판', '실시간 뉴스'];
 
 const homeFavorites = <FavoriteItem>[
   FavoriteItem(
@@ -51,19 +51,17 @@ const homeFavorites = <FavoriteItem>[
 const homeNews = <NewsItem>[
   NewsItem(
     id: 'news-1',
-    title: 'NCT 127 added extra shuttle runs for the final concert weekend',
+    title: 'NCT 127, 월드 투어 추가 공연 확정',
     tag: 'HOT',
-    time: '10 min',
-    body:
-        'Pickup slots, final entry routing, and live crowd notes were updated together for the event day flow.',
+    time: '10분 전',
+    body: '추가 공연 일정과 셔틀 연동 동선, 팬 커뮤니티 실시간 스레드가 함께 업데이트되었습니다.',
   ),
   NewsItem(
     id: 'news-2',
-    title: 'NewJeans Seoul popup reservation flow is now open in the trip section',
+    title: 'NewJeans, 글로벌 팝업 사전예약 오픈',
     tag: 'NEWS',
-    time: '1 hr',
-    body:
-        'Popup booking, location guidance, and reservation details are now linked from the trip experience area.',
+    time: '1시간 전',
+    body: '팝업스토어 예약, 위치 안내, 예약 상세 정보가 Trip 영역과 바로 연결됩니다.',
   ),
 ];
 
@@ -71,64 +69,64 @@ const homePopularPosts = <RankingPost>[
   RankingPost(
     id: 'hot-post-1',
     rank: 1,
-    title: 'Who is sharing arrival gate updates for the final show today?',
+    title: '이번 셔틀 타시는 분들 현장 나눔 정보!',
   ),
   RankingPost(
     id: 'hot-post-2',
     rank: 2,
-    title: 'Section view photos and merch queue tips are being updated here',
+    title: '고척돔 시야 제한석 후기 (사진 유)',
   ),
 ];
 
 const homeHotDeal = HotDealItem(
-  title: 'K-beauty styling package connected to the fan-trip route',
-  description: 'The quick action is meant to feel like the React hot deal banner.',
+  title: 'K-Beauty 에스테틱 50% 특가',
+  description: '빠른 액션 배너 톤과 CTA 밀도를 그대로 맞춘 홈 하단 핫딜 카드입니다.',
 );
 
 const tripProducts = <ProductItem>[
   ProductItem(
     id: 'trip-1',
     category: 'HOTSPOT',
-    title: 'NCT fan route day pass with shuttle pickup',
-    description: 'Fastest-growing route this week with guided pickup and event stopovers.',
+    title: 'NCT 성지순례 투어 1박 2일',
+    description: '검색량 245% 급상승',
     priceLabel: '125,000 KRW',
-    badge: 'Hot #1',
+    badge: '급상승 1위',
     badgeBackground: Color(0xFFFEE2E2),
     badgeForeground: Color(0xFFDC2626),
-    location: 'Major Seoul fan spots',
+    location: '서울 주요 팬 성지',
     imageLabel: 'IMAGE',
   ),
   ProductItem(
     id: 'trip-2',
     category: 'HOTSPOT',
-    title: 'Seoul night walk and K-food fan route',
-    description: 'Evening course built around quick fan meetups and photo spots.',
+    title: '서울 야경 크루즈 & K-Food 파티',
+    description: '외국인 팬덤 예약 1위',
     priceLabel: '89,000 KRW',
-    badge: 'Popular',
+    badge: '인기',
     badgeBackground: Color(0xFFDBEAFE),
     badgeForeground: Color(0xFF1D4ED8),
-    location: 'Euljiro',
+    location: '서울 도심',
     imageLabel: 'IMAGE',
   ),
   ProductItem(
     id: 'trip-3',
     category: 'FOOD',
-    title: 'K-pop themed dinner course',
-    description: 'Fan-friendly dining route with a 10% discount and easy booking.',
-    priceLabel: 'Pay on site',
+    title: '홍대 K-POP 다이닝 포차',
+    description: '팬덤 전용 10% 할인 세트 운영',
+    priceLabel: '현장 결제',
     badge: '10% OFF',
     badgeBackground: Color(0xFFFFEDD5),
     badgeForeground: Color(0xFFEA580C),
-    location: 'Hongdae',
+    location: '홍대입구역 9번 출구',
     imageLabel: 'FOOD',
   ),
   ProductItem(
     id: 'trip-4',
     category: 'POPUP',
-    title: 'NCT 127 WALK popup store pass',
-    description: 'Reservation, merchandise area, and activity zone in one flow.',
-    priceLabel: 'Free entry',
-    badge: 'Reservation',
+    title: 'NCT 127 \'WALK\' 팝업스토어',
+    description: '예약, 굿즈존, 체험존을 한 번에 연결한 팝업 템플릿',
+    priceLabel: '무료 입장',
+    badge: '사전예약',
     badgeBackground: Color(0xFFF3E8FF),
     badgeForeground: Color(0xFF9333EA),
     location: 'The Hyundai Seoul B1',
@@ -137,13 +135,13 @@ const tripProducts = <ProductItem>[
   ProductItem(
     id: 'trip-5',
     category: 'BEAUTY',
-    title: 'Cheongdam idol-style makeup session',
-    description: 'One-on-one booking with a stylist-guided beauty flow.',
+    title: '청담 메이크업 체험',
+    description: '아티스트 스타일링 체험과 예약형 뷰티 코스',
     priceLabel: '132,000 KRW',
     badge: '20% OFF',
     badgeBackground: Color(0xFFFCE7F3),
     badgeForeground: Color(0xFFDB2777),
-    location: 'Cheongdam beauty street',
+    location: '청담동 뷰티 스트리트',
     imageLabel: 'BEAUTY',
   ),
 ];
@@ -151,60 +149,72 @@ const tripProducts = <ProductItem>[
 const communityPosts = <CommunityPost>[
   CommunityPost(
     id: 'community-1',
-    tag: 'Guide',
-    title: 'Best arrival route for first-time concert visitors?',
+    tag: '자유',
+    title: '내일 콘서트 끝나고 셔틀 타러 가는 길 안 복잡할까요?',
     author: 'WavyUser_01',
-    time: '10 min',
+    time: '10분 전',
     likes: 24,
     comments: 8,
-    stats: '85 comments | 1.2k views',
+    stats: '조회 1.2k',
     excerpt:
-        'Collected the quickest gate entry flow, merch line timing, and meetup spots from today\'s visitors.',
+        '현장 동선까지 같이 정리해주셔서 너무 도움됐어요.',
   ),
   CommunityPost(
     id: 'community-2',
-    tag: 'Info',
-    title: 'Section N and M seat-view comparison with updated photos',
-    author: 'ViewMaster',
-    time: '30 min',
-    likes: 156,
-    comments: 40,
-    stats: '32 comments | 860 views',
+    tag: '질문',
+    title: '팝업스토어 대기열 지금 어떤가요?',
+    author: '해찬맘',
+    time: '15분 전',
+    likes: 5,
+    comments: 12,
+    stats: '조회 201',
     excerpt:
-        'Includes close-up view references, how much the stage feels offset, and merch queue visibility.',
+        'Live Thread 열리면 같이 들어가서 실시간 정보 공유해요!',
   ),
   CommunityPost(
     id: 'community-3',
-    tag: 'Free',
-    title: 'Anyone heading in from Terminal 1 and sharing a taxi?',
-    author: 'SeoulMeetup',
-    time: '1 hr',
-    likes: 82,
-    comments: 15,
-    stats: '14 comments | 210 views',
+    tag: '정보',
+    title: '고척돔 2층 N구역 시야 사진 공유합니다.',
+    author: '엔시티즌',
+    time: '30분 전',
+    likes: 156,
+    comments: 40,
+    stats: '조회 533',
     excerpt:
-        'A lightweight meetup thread for fans planning to move from the airport together before the event.',
+        '예매/결제 링크도 같이 붙으면 더 좋을 것 같아요.',
   ),
   CommunityPost(
     id: 'community-4',
-    tag: 'Question',
-    title: 'How early should I reach the popup if my slot is 3 PM?',
-    author: 'PopupGuide',
-    time: '2 hr',
+    tag: '자유',
+    title: '이번 MD 진짜 예쁘게 잘 뽑은듯 ㅠㅠ',
+    author: '마크광',
+    time: '1시간 전',
+    likes: 82,
+    comments: 15,
+    stats: '조회 122',
+    excerpt:
+        '셔틀 1호차 타시는 분들 같이 가요!',
+  ),
+  CommunityPost(
+    id: 'community-5',
+    tag: '자유',
+    title: '셔틀 1호차 타시는 분들 같이 가요!',
+    author: '팬더마우스',
+    time: '2시간 전',
     likes: 14,
     comments: 3,
     excerpt:
-        'Trying to estimate queue time, merch stock timing, and the best order to move through the space.',
+        '현장 나눔 가능한 분들 있으면 댓글 남겨주세요.',
   ),
 ];
 
 const tradeItems = <TradeItem>[
   TradeItem(
     id: 'trade-1',
-    title: 'NCT photocard transfer set',
-    priceLabel: '20,000 KRW',
+    title: 'NCT 정우 포카 양도',
+    priceLabel: '20,000원',
     statusKey: 'ON_SALE',
-    lastStateText: 'Latest status: still available for direct meetup trade.',
+    lastStateText: '마지막 상태 · 판매중',
     thumbnailLabel: 'IMAGE',
     sellerNickname: 'WavySell_01',
     buyerNickname: 'Jay_Trade',
@@ -212,10 +222,10 @@ const tradeItems = <TradeItem>[
   ),
   TradeItem(
     id: 'trade-2',
-    title: 'Seat transfer inquiry before the concert',
-    priceLabel: '15,000 KRW',
+    title: '응원봉 대여 (직거래)',
+    priceLabel: '15,000원',
     statusKey: 'RESERVED',
-    lastStateText: 'Latest status: reservation request confirmed.',
+    lastStateText: '마지막 상태 · 예약자 확정',
     thumbnailLabel: 'IMAGE',
     sellerNickname: 'LampSeller',
     buyerNickname: 'SeatM_user',
@@ -223,20 +233,20 @@ const tradeItems = <TradeItem>[
   ),
   TradeItem(
     id: 'trade-3',
-    title: 'Unopened album bundle',
-    priceLabel: '40,000 KRW',
+    title: '미개봉 앨범 일괄',
+    priceLabel: '40,000원',
     statusKey: 'COMPLETED',
-    lastStateText: 'Latest status: transaction completed successfully.',
+    lastStateText: '마지막 상태 · 거래완료',
     thumbnailLabel: 'IMAGE',
     sellerNickname: 'AlbumLine',
     buyerNickname: 'MintBuyer',
   ),
   TradeItem(
     id: 'trade-4',
-    title: 'Question about merch pickup slot exchange',
+    title: '굿즈 세트 문의글',
     priceLabel: '-',
     statusKey: 'HIDDEN_REPORTED',
-    lastStateText: 'Hidden after a report review.',
+    lastStateText: '마지막 상태 · 신고로 숨김',
     thumbnailLabel: 'IMAGE',
     sellerNickname: 'HiddenSeller',
     buyerNickname: 'SafeUser',
@@ -256,18 +266,18 @@ const tradeItems = <TradeItem>[
 const roomChats = <ChatRoomItem>[
   ChatRoomItem(
     id: 'room-1',
-    name: 'Driver Park (Final shuttle)',
-    body: 'Pickup starts in about five minutes. Please check your current location.',
-    time: '2:05 PM',
+    name: '기사: 박진우 (1호차)',
+    body: '탑승객님, 출발 5분 전입니다. 도착 확인 부탁드립니다.',
+    time: '오후 2:05',
     unread: 2,
     type: 'DRIVER',
     online: true,
   ),
   ChatRoomItem(
     id: 'room-2',
-    name: 'NCT photocard trade',
-    body: 'Is the exchange still available before the show?',
-    time: 'Yesterday',
+    name: 'NCT포카교환',
+    body: '혹시 아직 교환 가능한가요?',
+    time: '월요일',
     unread: 0,
     type: 'USER',
     online: false,
@@ -278,30 +288,30 @@ const notifications = <NotificationItem>[
   NotificationItem(
     id: 'noti-1',
     category: 'COMMUNITY',
-    title: 'New reply on your post',
-    body: 'A new comment was added to your community thread.',
-    time: '10 min',
+    title: '새 댓글이 달렸어요',
+    body: '내 게시글에 새로운 댓글이 추가되었습니다.',
+    time: '10분 전',
   ),
   NotificationItem(
     id: 'noti-2',
     category: 'PAYMENT',
-    title: 'Payment completed',
-    body: 'Your shuttle booking payment was completed successfully.',
-    time: '1 hr',
+    title: '결제가 완료되었어요',
+    body: '셔틀 예약 결제가 정상적으로 완료되었습니다.',
+    time: '1시간 전',
   ),
   NotificationItem(
     id: 'noti-3',
     category: 'TRADE',
-    title: 'Trade status updated',
-    body: 'Your trade thread moved to the reserved state.',
-    time: '2 hr',
+    title: 'Trade 상태가 변경되었어요',
+    body: '거래 상대방이 완료 처리하여 읽기 전용으로 전환되었습니다.',
+    time: '어제',
   ),
   NotificationItem(
     id: 'noti-4',
-    category: 'NOTICE',
-    title: 'Community categories updated',
-    body: 'The board structure now uses the 3-depth organization from the React draft.',
-    time: 'Yesterday',
+    category: 'RESERVATION',
+    title: '예약 QR 자동 갱신 안내',
+    body: '예약 1건당 QR 1개이며, QR은 10분 단위로 자동 갱신됩니다.',
+    time: '1시간 전',
     read: true,
   ),
 ];
@@ -310,151 +320,174 @@ const systemAlerts = <NotificationItem>[
   NotificationItem(
     id: 'alert-1',
     category: 'SYSTEM',
-    title: 'Short QR maintenance window',
-    body: 'QR refresh APIs are scheduled for a short maintenance window tonight.',
-    time: 'Now',
+    title: '서비스 점검 안내',
+    body: '오늘 03:00부터 03:30까지 QR 재생성 API 점검이 예정되어 있습니다.',
+    time: '방금',
   ),
   NotificationItem(
     id: 'alert-2',
     category: 'RESERVATION',
-    title: 'Automatic QR refresh policy',
-    body: 'Each reservation keeps one active QR and refreshes automatically every 10 minutes.',
-    time: '1 hr',
+    title: '예약 QR 자동 갱신 안내',
+    body: '예약 1건당 QR 1개이며, QR은 10분 단위로 자동 갱신됩니다.',
+    time: '1시간 전',
     read: true,
   ),
   NotificationItem(
     id: 'alert-3',
     category: 'TRADE',
-    title: 'Trade chat changed to read-only',
-    body: 'The transaction finished, so the input field was disabled for the room.',
-    time: 'Yesterday',
+    title: 'Trade 채팅 상태 변경',
+    body: '거래 상태가 완료 처리되어 입력창이 읽기 전용으로 전환되었습니다.',
+    time: '어제',
     read: true,
   ),
 ];
 
 const myAuthProviders = <AuthProviderItem>[
-  AuthProviderItem(name: 'Kakao', state: 'Recently used', isActive: true),
-  AuthProviderItem(name: 'Apple', state: 'Available', isActive: false),
-  AuthProviderItem(name: 'Google', state: 'Available', isActive: false),
+  AuthProviderItem(name: 'Kakao', state: '최근 사용', isActive: true),
+  AuthProviderItem(name: 'Apple', state: '간편가입 가능', isActive: false),
+  AuthProviderItem(name: 'Google', state: '간편가입 가능', isActive: false),
 ];
 
 const myMenuEntries = <MenuEntry>[
   MenuEntry(
-    label: 'My reservations',
+    label: '내 예약',
     icon: Icons.receipt_long_rounded,
     routeId: AppRouteId.myReservations,
     count: 2,
   ),
   MenuEntry(
-    label: 'My tickets',
+    label: '내 티켓',
     icon: Icons.confirmation_num_rounded,
     routeId: AppRouteId.myTickets,
     count: 3,
   ),
   MenuEntry(
-    label: 'Payments / Refunds / Transfers',
+    label: '결제 / 환불 / 양도',
     icon: Icons.credit_card_rounded,
     routeId: AppRouteId.paymentCenter,
   ),
   MenuEntry(
-    label: 'Points & coupons',
+    label: '포인트 / 쿠폰',
     icon: Icons.monetization_on_rounded,
     routeId: AppRouteId.pointsCoupons,
     count: 4,
   ),
   MenuEntry(
-    label: 'Support',
+    label: '고객센터',
     icon: Icons.support_agent_rounded,
     routeId: AppRouteId.support,
   ),
   MenuEntry(
-    label: 'Settings',
+    label: '설정',
     icon: Icons.settings_rounded,
     routeId: AppRouteId.settings,
   ),
 ];
 
+const mySignedIn = true;
+
 const reservations = <ReservationItem>[
   ReservationItem(
     id: 'reservation-1',
-    title: 'NCT 127 final shuttle',
-    kind: 'Shuttle',
-    time: 'Apr 22 | 3:00 PM',
-    location: 'Incheon Airport T1',
-    status: 'Booked',
+    title: 'NCT 127 \'WALK\' 팝업',
+    kind: '팝업스토어',
+    time: '내일 15:00',
+    location: '성수동',
+    status: '예약확정',
   ),
   ReservationItem(
     id: 'reservation-2',
-    title: 'NCT 127 popup store entry',
-    kind: 'Popup',
-    time: 'Apr 23 | 3:00 PM',
-    location: 'The Hyundai Seoul B1',
-    status: 'Booked',
+    title: '강남 스킨케어 패키지',
+    kind: '뷰티',
+    time: '05.20 11:00',
+    location: '강남역',
+    status: '예약확정',
+  ),
+  ReservationItem(
+    id: 'reservation-3',
+    title: 'NCT 127 고척돔 셔틀',
+    kind: 'Ticket',
+    time: '2026.04.22 14:00',
+    location: '인천공항 T1 출국장 앞',
+    status: 'QR',
+  ),
+  ReservationItem(
+    id: 'reservation-4',
+    title: 'NCT 127 \'WALK\' 팝업 입장',
+    kind: 'Ticket',
+    time: '2026.04.23 15:00',
+    location: '더현대 서울 B1',
+    status: 'QR',
+  ),
+  ReservationItem(
+    id: 'reservation-5',
+    title: '청담 메이크업 체험',
+    kind: 'Ticket',
+    time: '2026.04.11 11:20',
+    location: '청담동 뷰티 스트리트',
+    status: 'QR',
   ),
 ];
 
 const paymentHistory = <PaymentRecord>[
   PaymentRecord(
     id: 'pay-1',
-    title: 'NCT 127 shuttle booking',
+    title: 'NCT 127 셔틀 결제',
     date: '2026.04.18 14:30',
-    amount: '42,000 KRW',
+    amount: '42,000원',
   ),
   PaymentRecord(
     id: 'pay-2',
-    title: 'Cheongdam makeup reservation',
+    title: '청담 메이크업 예약',
     date: '2026.04.11 11:20',
-    amount: '132,000 KRW',
+    amount: '132,000원',
   ),
 ];
 
 const refundHistory = <PaymentRecord>[
   PaymentRecord(
     id: 'refund-1',
-    title: 'Popup reservation cancellation',
+    title: '팝업 예약 취소 환불',
     date: '2026.03.30 10:00',
-    amount: '-12,000 KRW',
+    amount: '-12,000원',
   ),
 ];
 
 const transferHistory = <PaymentRecord>[
   PaymentRecord(
     id: 'transfer-1',
-    title: 'Ticket transfer completed',
+    title: '양도 거래 정산',
     date: '2026.03.21 09:50',
-    amount: '1 case',
+    amount: '1건',
   ),
 ];
 
 const supportItems = <SupportItem>[
   SupportItem(
-    title: 'What if the QR does not refresh?',
-    body:
-        'Retry after restoring your connection, then contact support if the issue remains in the failure state.',
+    title: 'QR이 갱신되지 않으면 어떻게 하나요?',
+    body: '네트워크를 다시 확인한 뒤 재시도해 주세요. 문제가 지속되면 고객센터로 문의해 주세요.',
   ),
   SupportItem(
-    title: 'How are trade reports and blocks handled?',
-    body:
-        'Trade detail and moderation states should remain visible in the UI even after the conversation becomes read-only.',
+    title: 'Trade 신고나 차단은 어떻게 반영되나요?',
+    body: '거래글 상태와 배지는 유지되며, 완료/신고/차단 상태에 따라 채팅방이 읽기 전용으로 전환됩니다.',
   ),
   SupportItem(
-    title: 'Where can I check refunds?',
-    body:
-        'Use the payment center to review payment, refund, and transfer history in one place.',
+    title: '환불 내역은 어디서 확인하나요?',
+    body: '결제 / 환불 / 양도 화면에서 내역을 한 번에 확인할 수 있습니다.',
   ),
 ];
 
 const liveThreads = <LiveThreadItem>[
   LiveThreadItem(
     id: 'thread-1',
-    title: 'Section view updates and queue sharing',
+    title: 'NCT 127 팬덤 실시간 화력 집중!',
     remain: '22h',
     users: 1240,
     hot: true,
   ),
   LiveThreadItem(
     id: 'thread-2',
-    title: 'Popup merch wait-time updates',
+    title: '팝업 굿즈 대기열 실시간 공유',
     remain: '5h',
     users: 45,
     hot: false,

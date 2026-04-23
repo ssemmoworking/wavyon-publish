@@ -184,25 +184,29 @@ class FilterChipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: active ? WavyonColors.primary : Colors.white,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(
-            color: active ? WavyonColors.primary : const Color(0xFFE2E8F0),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(999),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: active ? WavyonColors.primary : Colors.white,
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(
+              color: active ? WavyonColors.primary : const Color(0xFFE2E8F0),
+            ),
+            boxShadow: active ? WavyonShadows.card : const [],
           ),
-          boxShadow: active ? WavyonShadows.card : const [],
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w900,
-            color: active ? Colors.white : WavyonColors.subtleText,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w900,
+              color: active ? Colors.white : WavyonColors.subtleText,
+            ),
           ),
         ),
       ),
@@ -235,24 +239,28 @@ class SegmentTabs<T> extends StatelessWidget {
       child: Row(
         children: items.map((item) {
           final selected = item.value == value;
-          return Expanded(
-            child: GestureDetector(
-              onTap: () => onChanged(item.value),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                decoration: BoxDecoration(
-                  color: selected ? WavyonColors.blue : Colors.transparent,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: selected ? WavyonShadows.blue : const [],
-                ),
-                child: Text(
-                  item.label,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w900,
-                    color: selected ? Colors.white : WavyonColors.subtleText,
+        return Expanded(
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => onChanged(item.value),
+                borderRadius: BorderRadius.circular(16),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 180),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: selected ? WavyonColors.blue : Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: selected ? WavyonShadows.blue : const [],
+                  ),
+                  child: Text(
+                    item.label,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w900,
+                      color: selected ? Colors.white : WavyonColors.subtleText,
+                    ),
                   ),
                 ),
               ),
@@ -444,29 +452,34 @@ class WavyonButton extends StatelessWidget {
       _ => Colors.white,
     };
 
-    final child = GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding: padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        decoration: BoxDecoration(
-          color: background,
-          borderRadius: BorderRadius.circular(20),
-          border: variant == WavyonButtonVariant.ghost
-              ? Border.all(color: WavyonColors.line)
-              : null,
-          boxShadow: variant == WavyonButtonVariant.ghost
-              ? const []
-              : (variant == WavyonButtonVariant.primary
-                  ? WavyonShadows.blue
-                  : WavyonShadows.card),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w900,
-            color: foreground,
+    final child = Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: BorderRadius.circular(20),
+        child: Ink(
+          padding: padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: BorderRadius.circular(20),
+            border: variant == WavyonButtonVariant.ghost
+                ? Border.all(color: WavyonColors.line)
+                : null,
+            boxShadow: variant == WavyonButtonVariant.ghost
+                ? const []
+                : (variant == WavyonButtonVariant.primary
+                    ? WavyonShadows.blue
+                    : WavyonShadows.card),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w900,
+                color: foreground,
+              ),
+            ),
           ),
         ),
       ),

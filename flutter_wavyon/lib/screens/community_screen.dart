@@ -23,9 +23,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
   bool get isArtistBoard => artistBoards.contains(selectedBoard);
   bool get isTradeBoard => selectedBoard == 'Trade';
-  bool get isConcertInfoBoard => selectedBoard == 'Concert Info';
-  bool get isLiveNewsBoard => selectedBoard == 'Live News';
-  bool get isFreeBoard => selectedBoard == 'Free Board';
+  bool get isConcertInfoBoard => selectedBoard == '공연정보';
+  bool get isLiveNewsBoard => selectedBoard == '실시간 뉴스';
+  bool get isFreeBoard => selectedBoard == '자유게시판';
 
   void selectBoard(String board) {
     setState(() {
@@ -110,7 +110,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   if (!isArtistBoard) ...[
                     const SizedBox(height: 14),
                     SearchBarCard(
-                      placeholder: 'Search $selectedBoard board',
+                      placeholder: '$selectedBoard 게시판 검색',
                     ),
                   ],
                 ],
@@ -148,7 +148,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
               onTap: () => widget.onNavigate(
                 AppRoute(
                   isTradeBoard ? AppRouteId.tradeWrite : AppRouteId.fandomWrite,
-                  title: isTradeBoard ? 'Trade Write' : 'Board Write',
+                  title: isTradeBoard ? '거래글 작성' : '게시글 작성',
                   payload: {'board': selectedBoard},
                 ),
               ),
@@ -164,7 +164,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     Icon(Icons.edit_outlined, size: 14, color: Colors.white),
                     SizedBox(width: 8),
                     Text(
-                      'Write',
+                      '글쓰기',
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w900,
@@ -182,17 +182,20 @@ class _CommunityScreenState extends State<CommunityScreen> {
 
   List<Widget> _buildContent(BuildContext context) {
     if (isTradeBoard) {
+      final visibleTradeItems = tradeItems
+          .where((item) => item.statusKey != 'DELETED')
+          .toList(growable: false);
+
       return [
         const InlineNotice(
-          title: 'Trade board policy',
-          description:
-              'Trade detail, report, and moderation states stay visible, and hidden statuses keep their own badge styles.',
+          title: '거래 게시판 안내',
+          description: '거래글 상세, 신고, 숨김 상태는 유지되고 각 상태에 맞는 배지 스타일도 그대로 노출됩니다.',
         ),
         const SizedBox(height: 16),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: tradeItems.length,
+          itemCount: visibleTradeItems.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             mainAxisSpacing: 12,
@@ -200,7 +203,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
             mainAxisExtent: 182,
           ),
           itemBuilder: (context, index) {
-            final item = tradeItems[index];
+            final item = visibleTradeItems[index];
             final style = tradeStatusStyle(item.statusKey);
             return WavyonCard(
               padding: EdgeInsets.zero,
@@ -293,7 +296,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Shuttle-K survey',
+                '셔틀 수요 조사',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
@@ -302,7 +305,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
               ),
               SizedBox(height: 6),
               Text(
-                'Bus demand and concert logistics stay grouped inside a compact promo card.',
+                '공연 이동 동선과 셔틀 관련 공지를 한 카드 안에서 빠르게 확인합니다.',
                 style: TextStyle(
                   fontSize: 10,
                   height: 1.4,
@@ -315,24 +318,39 @@ class _CommunityScreenState extends State<CommunityScreen> {
         ),
         const SizedBox(height: 12),
         WavyonCard(
-          onTap: () => widget.onNavigate(const AppRoute(AppRouteId.liveChatList, title: 'Live Chat')),
+          onTap: () => widget.onNavigate(const AppRoute(AppRouteId.liveChatList, title: '라이브 스레드')),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Row(
                 children: [
-                  SizedBox(
-                    width: 10,
-                    height: 10,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: WavyonColors.red,
-                        shape: BoxShape.circle,
+                  Stack(
+                    alignment: Alignment.center,
+                    children: const [
+                      SizedBox(
+                        width: 12,
+                        height: 12,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Color(0x33EF4444),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                       ),
-                    ),
+                      SizedBox(
+                        width: 8,
+                        height: 8,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: WavyonColors.red,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(width: 8),
-                  Text(
+                  const SizedBox(width: 8),
+                  const Text(
                     'LIVE THREAD',
                     style: TextStyle(
                       fontSize: 10,
@@ -341,20 +359,29 @@ class _CommunityScreenState extends State<CommunityScreen> {
                       color: WavyonColors.red,
                     ),
                   ),
+                  const Spacer(),
+                  const Text(
+                    '목록',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      color: WavyonColors.muted,
+                    ),
+                  ),
                 ],
               ),
-              SizedBox(height: 10),
-              Text(
-                'Open live chat list',
+              const SizedBox(height: 10),
+              const Text(
+                '라이브 스레드 바로가기',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
                   color: WavyonColors.text,
                 ),
               ),
-              SizedBox(height: 6),
-              Text(
-                'The React draft uses this as a fast path into the live community flow.',
+              const SizedBox(height: 6),
+              const Text(
+                '실시간 커뮤니티 흐름으로 바로 진입할 수 있는 빠른 액션 카드입니다.',
                 style: TextStyle(
                   fontSize: 11,
                   height: 1.45,
@@ -372,7 +399,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
             child: _NewsBoardCard(
               news: news,
               onTap: () => widget.onNavigate(
-                AppRoute(AppRouteId.newsDetail, title: 'News Detail', payload: {'id': news.id}),
+                AppRoute(AppRouteId.newsDetail, title: '뉴스 상세', payload: {'id': news.id}),
               ),
             ),
           ),
@@ -388,7 +415,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
               child: _NewsBoardCard(
                 news: news,
                 onTap: () => widget.onNavigate(
-                  AppRoute(AppRouteId.newsDetail, title: 'News Detail', payload: {'id': news.id}),
+                  AppRoute(AppRouteId.newsDetail, title: '뉴스 상세', payload: {'id': news.id}),
                 ),
               ),
             ),
@@ -399,11 +426,11 @@ class _CommunityScreenState extends State<CommunityScreen> {
     if (isFreeBoard) {
       return [
         SectionTitle(
-          title: 'Free Board',
-          subtitle: 'List layout and quick action follow the React card density.',
+          title: '자유게시판',
+          subtitle: '실시간 뉴스처럼 바로 큰 리스트를 노출하고, 더보기로 전용 목록 페이지에 진입합니다.',
           action: _TopAction(
-            label: 'See More',
-            onTap: () => widget.onNavigate(const AppRoute(AppRouteId.freeBoard, title: 'Free Board')),
+            label: '더보기',
+            onTap: () => widget.onNavigate(const AppRoute(AppRouteId.freeBoard, title: '자유게시판')),
           ),
         ),
         const SizedBox(height: 14),
@@ -413,7 +440,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
             child: _CompactPostCard(
               post: post,
               onTap: () => widget.onNavigate(
-                const AppRoute(AppRouteId.communityDetail, title: 'Community Detail'),
+                const AppRoute(AppRouteId.communityDetail, title: '게시글 상세보기'),
               ),
             ),
           ),
@@ -424,7 +451,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
     return [
       if (isArtistBoard) ...[
         GestureDetector(
-          onTap: () => widget.onNavigate(const AppRoute(AppRouteId.liveChatList, title: 'Live Chat')),
+          onTap: () => widget.onNavigate(const AppRoute(AppRouteId.liveChatList, title: '라이브 스레드')),
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -435,14 +462,30 @@ class _CommunityScreenState extends State<CommunityScreen> {
             child: Stack(
               children: [
                 Positioned(
-                  right: 0,
-                  top: -6,
-                  child: Text(
-                    '#',
-                    style: TextStyle(
-                      fontSize: 64,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white.withOpacity(0.16),
+                  right: -4,
+                  top: -10,
+                  child: Icon(
+                    Icons.mode_comment_outlined,
+                    size: 72,
+                    color: Colors.white.withOpacity(0.18),
+                  ),
+                ),
+                Positioned(
+                  right: 8,
+                  top: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: const Text(
+                      '목록',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
@@ -451,15 +494,28 @@ class _CommunityScreenState extends State<CommunityScreen> {
                   children: [
                     Row(
                       children: [
-                        const SizedBox(
-                          width: 8,
-                          height: 8,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 12,
+                              height: 12,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                shape: BoxShape.circle,
+                              ),
                             ),
-                          ),
+                            const SizedBox(
+                              width: 8,
+                              height: 8,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(width: 8),
                         Text(
@@ -475,7 +531,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      '$selectedBoard board\nrealtime updates',
+                      '$selectedBoard 팬덤\n실시간 화력 집중!',
                       style: const TextStyle(
                         fontSize: 20,
                         height: 1.16,
@@ -485,7 +541,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${liveThreads.first.users} users are chatting in the highlighted thread.',
+                      '지금 ${liveThreads.first.users}명이 대화하고 있어요',
                       style: TextStyle(
                         fontSize: 10,
                         height: 1.4,
@@ -502,12 +558,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
         const SizedBox(height: 16),
       ],
       SectionTitle(
-        title: isArtistBoard ? '$selectedBoard Board' : 'Board Feed',
+        title: isArtistBoard ? '팬덤 게시판' : '게시판',
         icon: Icons.forum_outlined,
         action: _TopAction(
-          label: 'See More',
+          label: '더보기',
           onTap: () => widget.onNavigate(
-            AppRoute(AppRouteId.fandomBoard, title: '$selectedBoard Board', payload: {'board': selectedBoard}),
+            AppRoute(AppRouteId.fandomBoard, title: '$selectedBoard 팬덤 게시판', payload: {'board': selectedBoard}),
           ),
         ),
       ),
@@ -519,7 +575,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
             final last = post == communityBoardFeed.last;
             return GestureDetector(
               onTap: () => widget.onNavigate(
-                const AppRoute(AppRouteId.communityDetail, title: 'Community Detail'),
+                const AppRoute(AppRouteId.communityDetail, title: '게시글 상세보기'),
               ),
               child: Padding(
                 padding: EdgeInsets.only(bottom: last ? 0 : 12, top: 4),
@@ -586,13 +642,18 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         const SizedBox(width: 10),
                         Padding(
                           padding: const EdgeInsets.only(top: 24),
-                          child: Text(
-                            '❤ ${post.likes}  💬 ${post.comments}',
-                            style: const TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w900,
-                              color: WavyonColors.muted,
-                            ),
+                          child: Row(
+                            children: [
+                              _MiniStat(
+                                icon: Icons.favorite_border_rounded,
+                                value: '${post.likes}',
+                              ),
+                              const SizedBox(width: 8),
+                              _MiniStat(
+                                icon: Icons.chat_bubble_outline_rounded,
+                                value: '${post.comments}',
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -695,17 +756,27 @@ class _DropdownSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (!highlight) const Divider(height: 1, color: Color(0xFFF8FAFC)),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 6, 16, 6),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w900,
-                color: highlight ? WavyonColors.blue : WavyonColors.muted,
-              ),
+            child: Row(
+              children: [
+                if (highlight) ...[
+                  const Icon(Icons.star_rounded, size: 12, color: WavyonColors.blue),
+                  const SizedBox(width: 4),
+                ],
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                    color: highlight ? WavyonColors.blue : WavyonColors.muted,
+                  ),
+                ),
+              ],
             ),
           ),
+          const SizedBox(height: 2),
           ...items.map((item) {
             final selected = item == selectedBoard;
             return InkWell(
@@ -791,13 +862,27 @@ class _CompactPostCard extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 10),
-          Text(
-            '${post.author}  ❤ ${post.likes}  💬 ${post.comments}',
-            style: const TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.w800,
-              color: WavyonColors.muted,
-            ),
+          Row(
+            children: [
+              Text(
+                post.author,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  color: WavyonColors.muted,
+                ),
+              ),
+              const SizedBox(width: 10),
+              _MiniStat(
+                icon: Icons.favorite_border_rounded,
+                value: '${post.likes}',
+              ),
+              const SizedBox(width: 8),
+              _MiniStat(
+                icon: Icons.chat_bubble_outline_rounded,
+                value: '${post.comments}',
+              ),
+            ],
           ),
         ],
       ),
@@ -901,6 +986,35 @@ class _TopAction extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _MiniStat extends StatelessWidget {
+  const _MiniStat({
+    required this.icon,
+    required this.value,
+  });
+
+  final IconData icon;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 12, color: WavyonColors.muted),
+        const SizedBox(width: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 10,
+            fontWeight: FontWeight.w900,
+            color: WavyonColors.muted,
+          ),
+        ),
+      ],
     );
   }
 }

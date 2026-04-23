@@ -78,7 +78,7 @@ class HomeScreen extends StatelessWidget {
         Padding(
           padding: kScreenPadding,
           child: _QrHeroCard(
-            onTap: () => onNavigate(const AppRoute(AppRouteId.qrCenter, title: 'QR Center')),
+            onTap: () => onNavigate(const AppRoute(AppRouteId.qrCenter, title: 'QR 탑승권')),
           ),
         ),
         const SizedBox(height: 18),
@@ -91,7 +91,7 @@ class HomeScreen extends StatelessWidget {
           padding: kScreenPadding,
           child: _TrendingCard(
             onTap: () => onNavigate(
-              const AppRoute(AppRouteId.communityDetail, title: 'Community Detail'),
+              const AppRoute(AppRouteId.communityDetail, title: '게시글 상세보기'),
             ),
           ),
         ),
@@ -101,7 +101,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SectionTitle(title: 'Live K-pop News'),
+              const SectionTitle(title: '실시간 K-POP 뉴스'),
               const SizedBox(height: 14),
               ...homeNews.map(
                 (news) => Padding(
@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                   child: _NewsCard(
                     news: news,
                     onTap: () => onNavigate(
-                      AppRoute(AppRouteId.newsDetail, title: 'News Detail', payload: {'id': news.id}),
+                      AppRoute(AppRouteId.newsDetail, title: '뉴스 상세', payload: {'id': news.id}),
                     ),
                   ),
                 ),
@@ -170,7 +170,7 @@ class _QrHeroCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
                 const Text(
-                  'NCT 127 Final Shuttle\n1-seat pickup (Gate 77-234)',
+                  'NCT 127 고척돔 셔틀\n1호차 (경기77바1234)',
                   style: TextStyle(
                     fontSize: 18,
                     height: 1.22,
@@ -196,7 +196,7 @@ class _QrHeroCard extends StatelessWidget {
                       const SizedBox(width: 6),
                       const Expanded(
                         child: Text(
-                          'Departure planned for 14:00',
+                          '14:00 출발 예정',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w800,
@@ -216,7 +216,7 @@ class _QrHeroCard extends StatelessWidget {
                             Icon(Icons.qr_code_rounded, size: 12, color: Colors.white),
                             SizedBox(width: 4),
                             Text(
-                              'Open QR',
+                              'QR 열기',
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w900,
@@ -276,7 +276,7 @@ class _EventPromoCard extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'SUMMER K-FESTA\nLive reward event',
+                      'SUMMER K-FESTA\n서울 얼리버드',
                       style: TextStyle(
                         fontSize: 15,
                         height: 1.2,
@@ -298,7 +298,7 @@ class _EventPromoCard extends StatelessWidget {
                       boxShadow: WavyonShadows.card,
                     ),
                     child: const Text(
-                      '30% OFF',
+                      '30% 할인',
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w900,
@@ -346,7 +346,7 @@ class _TrendingCard extends StatelessWidget {
                 Icon(Icons.trending_up_rounded, size: 18, color: WavyonColors.amber),
                 SizedBox(width: 8),
                 Text(
-                  'Trending Community Topics',
+                  '실시간 커뮤니티 인기글',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w900,

@@ -60,11 +60,11 @@ class _WavyonShellState extends State<WavyonShell> {
         children: [
           _MainHeader(
             unreadCount: 3,
-            onOpenSettings: () => openRoute(const AppRoute(AppRouteId.settings, title: 'Settings')),
+            onOpenSettings: () => openRoute(const AppRoute(AppRouteId.settings, title: '설정')),
             onOpenNotifications: () => openRoute(
-              const AppRoute(AppRouteId.notifications, title: 'Notifications'),
+              const AppRoute(AppRouteId.notifications, title: '알림'),
             ),
-            onOpenWeather: () => openRoute(const AppRoute(AppRouteId.weather, title: 'Weather')),
+            onOpenWeather: () => openRoute(const AppRoute(AppRouteId.weather, title: '현지 날씨 정보')),
           ),
           Expanded(
             child: AnimatedSwitcher(
@@ -176,7 +176,7 @@ class _MainHeader extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              'Seoul',
+                              '서울 (Seoul)',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w900,
@@ -185,7 +185,7 @@ class _MainHeader extends StatelessWidget {
                             ),
                             SizedBox(width: 6),
                             Text(
-                              '22C Clear',
+                              '22°C 맑음',
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w800,
@@ -273,7 +273,7 @@ class _BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const items = [
-      (MainTab.home, 'Home', Icons.home_outlined, Icons.home_rounded),
+      (MainTab.home, '홈', Icons.home_outlined, Icons.home_rounded),
       (MainTab.trip, 'Trip', Icons.map_outlined, Icons.map_rounded),
       (MainTab.community, 'Community', Icons.groups_outlined, Icons.groups_rounded),
       (MainTab.chat, 'Chat', Icons.chat_bubble_outline_rounded, Icons.chat_rounded),
