@@ -46,14 +46,18 @@ typedef RouteHandler = void Function(AppRoute route);
 
 class FavoriteItem {
   const FavoriteItem({
+    required this.id,
     required this.label,
     required this.symbol,
-    required this.color,
+    required this.backgroundColor,
+    required this.foregroundColor,
   });
 
+  final String id;
   final String label;
   final String symbol;
-  final Color color;
+  final Color backgroundColor;
+  final Color foregroundColor;
 }
 
 class NewsItem {
@@ -72,42 +76,66 @@ class NewsItem {
   final String body;
 }
 
+class RankingPost {
+  const RankingPost({
+    required this.id,
+    required this.rank,
+    required this.title,
+  });
+
+  final String id;
+  final int rank;
+  final String title;
+}
+
 class ProductItem {
   const ProductItem({
     required this.id,
     required this.category,
     required this.title,
     required this.description,
-    required this.price,
+    required this.priceLabel,
     required this.badge,
-    required this.badgeColor,
+    required this.badgeBackground,
+    required this.badgeForeground,
     required this.location,
+    required this.imageLabel,
   });
 
   final String id;
   final String category;
   final String title;
   final String description;
-  final String price;
+  final String priceLabel;
   final String badge;
-  final Color badgeColor;
+  final Color badgeBackground;
+  final Color badgeForeground;
   final String location;
+  final String imageLabel;
 }
 
 class CommunityPost {
   const CommunityPost({
     required this.id,
+    required this.tag,
     required this.title,
     required this.author,
-    required this.meta,
-    required this.tag,
+    required this.time,
+    required this.likes,
+    required this.comments,
+    this.stats,
+    this.excerpt,
   });
 
   final String id;
+  final String tag;
   final String title;
   final String author;
-  final String meta;
-  final String tag;
+  final String time;
+  final int likes;
+  final int comments;
+  final String? stats;
+  final String? excerpt;
 }
 
 class ChatRoomItem {
@@ -117,7 +145,8 @@ class ChatRoomItem {
     required this.body,
     required this.time,
     required this.unread,
-    required this.driverStyle,
+    required this.type,
+    required this.online,
   });
 
   final String id;
@@ -125,27 +154,32 @@ class ChatRoomItem {
   final String body;
   final String time;
   final int unread;
-  final bool driverStyle;
+  final String type;
+  final bool online;
 }
 
 class TradeItem {
   const TradeItem({
     required this.id,
     required this.title,
-    required this.price,
-    required this.status,
-    required this.summary,
-    required this.counterparty,
-    this.unread = 0,
+    required this.priceLabel,
+    required this.statusKey,
+    required this.lastStateText,
+    required this.thumbnailLabel,
+    required this.sellerNickname,
+    required this.buyerNickname,
+    this.unreadCount = 0,
   });
 
   final String id;
   final String title;
-  final String price;
-  final String status;
-  final String summary;
-  final String counterparty;
-  final int unread;
+  final String priceLabel;
+  final String statusKey;
+  final String lastStateText;
+  final String thumbnailLabel;
+  final String sellerNickname;
+  final String buyerNickname;
+  final int unreadCount;
 }
 
 class NotificationItem {
@@ -236,4 +270,26 @@ class LiveThreadItem {
   final String remain;
   final int users;
   final bool hot;
+}
+
+class AuthProviderItem {
+  const AuthProviderItem({
+    required this.name,
+    required this.state,
+    required this.isActive,
+  });
+
+  final String name;
+  final String state;
+  final bool isActive;
+}
+
+class HotDealItem {
+  const HotDealItem({
+    required this.title,
+    required this.description,
+  });
+
+  final String title;
+  final String description;
 }

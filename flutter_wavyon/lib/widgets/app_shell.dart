@@ -21,8 +21,25 @@ class _WavyonShellState extends State<WavyonShell> {
 
   void openRoute(AppRoute route) {
     Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => RouteDetailPage(route: route, onNavigate: openRoute),
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 280),
+        reverseTransitionDuration: const Duration(milliseconds: 220),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return RouteDetailPage(route: route, onNavigate: openRoute);
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final offsetAnimation = Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(
+            CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
+          );
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
       ),
     );
   }
@@ -38,89 +55,322 @@ class _WavyonShellState extends State<WavyonShell> {
     };
 
     return Scaffold(
-      appBar: currentTab == MainTab.my
-          ? null
-          : AppBar(
-              toolbarHeight: 88,
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ShaderMask(
-                    shaderCallback: (bounds) => const LinearGradient(
-                      colors: [Color(0xFF2563EB), Color(0xFF8B5CF6), Color(0xFFEC4899), Color(0xFFF59E0B)],
-                    ).createShader(bounds),
-                    child: const Text(
-                      'WAVYON',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.w900,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  InkWell(
-                    onTap: () => openRoute(const AppRoute(AppRouteId.weather, title: 'Weather')),
-                    borderRadius: BorderRadius.circular(18),
-                    child: Ink(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        border: Border.all(color: WavyonColors.line),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(Icons.wb_sunny_rounded, size: 18, color: Colors.blue),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              'Seoul | 22C | Clear',
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
-                            ),
-                          ),
-                          Icon(Icons.chevron_right_rounded, size: 18),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+      backgroundColor: WavyonColors.canvas,
+      body: Column(
+        children: [
+          _MainHeader(
+            unreadCount: 3,
+            onOpenSettings: () => openRoute(const AppRoute(AppRouteId.settings, title: 'Settings')),
+            onOpenNotifications: () => openRoute(
+              const AppRoute(AppRouteId.notifications, title: 'Notifications'),
+            ),
+            onOpenWeather: () => openRoute(const AppRoute(AppRouteId.weather, title: 'Weather')),
+          ),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 260),
+              switchInCurve: Curves.easeOut,
+              switchOutCurve: Curves.easeIn,
+              child: KeyedSubtree(
+                key: ValueKey(currentTab),
+                child: body,
               ),
-              actions: [
-                IconButton(
-                  onPressed: () => openRoute(const AppRoute(AppRouteId.settings, title: 'Settings')),
-                  icon: const Icon(Icons.settings_outlined),
-                ),
-                Stack(
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: _BottomNav(
+        activeTab: currentTab,
+        unreadChatCount: 3,
+        onChange: (tab) => setState(() => currentTab = tab),
+      ),
+    );
+  }
+}
+
+class _MainHeader extends StatelessWidget {
+  const _MainHeader({
+    required this.unreadCount,
+    required this.onOpenSettings,
+    required this.onOpenNotifications,
+    required this.onOpenWeather,
+  });
+
+  final int unreadCount;
+  final VoidCallback onOpenSettings;
+  final VoidCallback onOpenNotifications;
+  final VoidCallback onOpenWeather;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(color: WavyonColors.line)),
+      ),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 10),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40,
+                child: Row(
                   children: [
-                    IconButton(
-                      onPressed: () => openRoute(const AppRoute(AppRouteId.notifications, title: 'Notifications')),
-                      icon: const Icon(Icons.notifications_none_rounded),
+                    ShaderMask(
+                      shaderCallback: (bounds) => WavyonGradients.text.createShader(bounds),
+                      child: const Text(
+                        'WAVYON',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w900,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                    const Positioned(
-                      right: 12,
-                      top: 14,
-                      child: CircleAvatar(radius: 4, backgroundColor: Colors.red),
+                    const Spacer(),
+                    _HeaderIconButton(
+                      icon: Icons.settings_outlined,
+                      onTap: onOpenSettings,
+                    ),
+                    const SizedBox(width: 2),
+                    _HeaderIconButton(
+                      icon: Icons.notifications_none_rounded,
+                      onTap: onOpenNotifications,
+                      badgeCount: unreadCount,
                     ),
                   ],
                 ),
-                const SizedBox(width: 8),
-              ],
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: onOpenWeather,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: WavyonColors.line),
+                    boxShadow: WavyonShadows.card,
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: WavyonShadows.card,
+                        ),
+                        child: const Icon(
+                          Icons.wb_sunny_outlined,
+                          size: 18,
+                          color: WavyonColors.blue,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              'Seoul',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w900,
+                                color: WavyonColors.text,
+                              ),
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              '22C Clear',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w800,
+                                color: WavyonColors.blue,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(
+                        Icons.chevron_right_rounded,
+                        size: 18,
+                        color: WavyonColors.muted,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HeaderIconButton extends StatelessWidget {
+  const _HeaderIconButton({
+    required this.icon,
+    required this.onTap,
+    this.badgeCount = 0,
+  });
+
+  final IconData icon;
+  final VoidCallback onTap;
+  final int badgeCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 38,
+      height: 38,
+      child: Stack(
+        children: [
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(999),
+              child: Center(
+                child: Icon(
+                  icon,
+                  size: 20,
+                  color: WavyonColors.subtleText,
+                ),
+              ),
             ),
-      body: body,
-      bottomNavigationBar: NavigationBar(
-        height: 78,
-        selectedIndex: MainTab.values.indexOf(currentTab),
-        onDestinationSelected: (index) => setState(() => currentTab = MainTab.values[index]),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home_rounded), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.map_outlined), selectedIcon: Icon(Icons.map_rounded), label: 'Trip'),
-          NavigationDestination(icon: Icon(Icons.groups_outlined), selectedIcon: Icon(Icons.groups_rounded), label: 'Community'),
-          NavigationDestination(icon: Icon(Icons.chat_bubble_outline_rounded), selectedIcon: Icon(Icons.chat_rounded), label: 'Chat'),
-          NavigationDestination(icon: Icon(Icons.person_outline_rounded), selectedIcon: Icon(Icons.person_rounded), label: 'My'),
+          ),
+          if (badgeCount > 0)
+            const Positioned(
+              right: 8,
+              top: 8,
+              child: CircleAvatar(
+                radius: 3,
+                backgroundColor: WavyonColors.red,
+              ),
+            ),
         ],
+      ),
+    );
+  }
+}
+
+class _BottomNav extends StatelessWidget {
+  const _BottomNav({
+    required this.activeTab,
+    required this.unreadChatCount,
+    required this.onChange,
+  });
+
+  final MainTab activeTab;
+  final int unreadChatCount;
+  final ValueChanged<MainTab> onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    const items = [
+      (MainTab.home, 'Home', Icons.home_outlined, Icons.home_rounded),
+      (MainTab.trip, 'Trip', Icons.map_outlined, Icons.map_rounded),
+      (MainTab.community, 'Community', Icons.groups_outlined, Icons.groups_rounded),
+      (MainTab.chat, 'Chat', Icons.chat_bubble_outline_rounded, Icons.chat_rounded),
+      (MainTab.my, 'My', Icons.person_outline_rounded, Icons.person_rounded),
+    ];
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.96),
+        border: const Border(top: BorderSide(color: WavyonColors.line)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x08000000),
+            blurRadius: 20,
+            offset: Offset(0, -10),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: items.map((item) {
+            final tab = item.$1;
+            final active = tab == activeTab;
+            final icon = active ? item.$4 : item.$3;
+
+            return GestureDetector(
+              onTap: () => onChange(tab),
+              child: Opacity(
+                opacity: active ? 1 : 0.34,
+                child: AnimatedScale(
+                  duration: const Duration(milliseconds: 180),
+                  scale: active ? 1.08 : 1,
+                  child: SizedBox(
+                    width: 68,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: active ? const Color(0xFFEFF6FF) : Colors.transparent,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Icon(
+                                icon,
+                                size: 22,
+                                color: active ? WavyonColors.primary : WavyonColors.subtleText,
+                              ),
+                              if (tab == MainTab.chat && unreadChatCount > 0)
+                                Positioned(
+                                  right: -6,
+                                  top: -5,
+                                  child: Container(
+                                    constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                                    decoration: BoxDecoration(
+                                      color: WavyonColors.red,
+                                      borderRadius: BorderRadius.circular(999),
+                                      border: Border.all(color: Colors.white, width: 2),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      '$unreadChatCount',
+                                      style: const TextStyle(
+                                        fontSize: 8,
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          item.$2,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900,
+                            color: active ? WavyonColors.primary : WavyonColors.subtleText,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
